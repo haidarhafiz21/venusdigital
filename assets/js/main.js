@@ -640,33 +640,6 @@
   moveIndicator(activeNavLink());
 
   /* =========================================================
-     KURSOR KUSTOM (hanya di komputer dengan mouse)
-     ========================================================= */
-  if (finePointer && !reduceMotion) {
-    var cursor = $("#cursor");
-    var cx = -100, cy = -100, tx = -100, ty = -100, shown = false;
-    document.addEventListener("mousemove", function (e) {
-      tx = e.clientX; ty = e.clientY;
-      if (!shown) { shown = true; cx = tx; cy = ty; cursor.classList.add("is-visible"); }
-    });
-    document.documentElement.addEventListener("mouseleave", function () { shown = false; cursor.classList.remove("is-visible"); });
-    document.addEventListener("mouseover", function (e) {
-      var t = e.target;
-      var isText = !!t.closest("input, textarea");
-      cursor.classList.toggle("is-text", isText);
-      cursor.classList.toggle("is-hover", !isText && !!t.closest("a, button, summary, select, label, .product__card"));
-    });
-    document.addEventListener("mousedown", function () { cursor.classList.add("is-down"); });
-    document.addEventListener("mouseup", function () { cursor.classList.remove("is-down"); });
-    (function cursorLoop() {
-      cx += (tx - cx) * 0.2;
-      cy += (ty - cy) * 0.2;
-      cursor.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
-      requestAnimationFrame(cursorLoop);
-    })();
-  }
-
-  /* =========================================================
      FORM REQUEST CUSTOM -> WHATSAPP
      ========================================================= */
   var form = $("#requestForm");
