@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://haidarhafiz21.github.io/venusdigital/sitemap.xml
