@@ -18,20 +18,22 @@
   var toTop = $("#toTop"), toTopBar = $("#toTopBar"), RING = 131.95;
   var lastY = window.scrollY, ticking = false, drawerOpen = false;
 
+  var lastProg = -1;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
       ticking = false;
       var y = window.scrollY;
-      header.classList.toggle("is-scrolled", y > 10);
       var max = document.documentElement.scrollHeight - window.innerHeight;
       var prog = max > 0 ? Math.min(y / max, 1) : 0;
-      if (progress) progress.style.transform = "scaleX(" + prog + ")";
-      if (toTop) {
-        toTop.classList.toggle("is-visible", y > 600);
-        toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
+      header.classList.toggle("is-scrolled", y > 10);
+      if (Math.abs(prog - lastProg) > 0.0005) {
+        lastProg = prog;
+        if (progress) progress.style.transform = "scaleX(" + prog.toFixed(4) + ")";
+        if (toTop && y > 600) toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
       }
+      if (toTop) toTop.classList.toggle("is-visible", y > 600);
       if (Math.abs(y - lastY) > 8) {
         header.classList.toggle("is-hidden", y > lastY && y > 320 && !drawerOpen);
         lastY = y;
@@ -114,12 +116,17 @@
 
   /* ---------- Animasi muncul saat scroll (dua arah) ---------- */
   var targets = $all("[data-reveal]");
+  // Di HP/tablet cukup muncul sekali, supaya scroll cepat tetap mulus
+  var revealOnce = !finePointer;
   if ("IntersectionObserver" in window && !reduceMotion) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         var el = en.target;
-        if (en.intersectionRatio >= 0.12 || en.intersectionRect.height > window.innerHeight * 0.2) el.classList.add("in");
-        else if (!en.isIntersecting) { el.classList.remove("in"); el.classList.toggle("from-top", en.boundingClientRect.top < 0); }
+        if (en.intersectionRatio >= 0.12 || en.intersectionRect.height > window.innerHeight * 0.2) {
+          el.classList.add("in");
+          if (revealOnce) io.unobserve(el);
+        }
+        else if (!en.isIntersecting && !revealOnce) { el.classList.remove("in"); el.classList.toggle("from-top", en.boundingClientRect.top < 0); }
       });
     }, { threshold: [0, 0.12] });
     targets.forEach(function (el, i) {

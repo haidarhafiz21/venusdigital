@@ -66,6 +66,9 @@
      ANIMASI SCROLL (arah-sadar: dari bawah saat scroll turun,
      dari atas saat scroll naik)
      ========================================================= */
+  // Di HP/tablet elemen cukup muncul sekali: tidak disembunyikan lagi saat
+  // digeser balik, supaya scroll cepat (momentum iPhone) tetap mulus.
+  var revealOnce = !finePointer;
   var revealIO = ("IntersectionObserver" in window && !reduceMotion)
     ? new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
@@ -74,7 +77,8 @@
           if (visible) {
             el.classList.add("in");
             if (el.hasAttribute("data-count")) countUp(el);
-          } else if (!en.isIntersecting) {
+            if (revealOnce) revealIO.unobserve(el);
+          } else if (!en.isIntersecting && !revealOnce) {
             el.classList.remove("in");
             el.classList.toggle("from-top", en.boundingClientRect.top < 0);
           }
@@ -291,10 +295,16 @@
   // Garis progres "Cara Beli" yang terisi mengikuti scroll (naik & turun)
   var howto = $("#howto"), rail = $("#howtoRail");
   var howtoItems = howto ? $all("li", howto) : [], railDots = rail ? $all("i", rail) : [];
-  function updateRail() {
-    if (!howto || !rail) return;
-    var r = howto.getBoundingClientRect(), vh = window.innerHeight;
-    var p = reduceMotion ? 1 : Math.min(Math.max((vh * 0.8 - r.top) / (vh * 0.5), 0), 1);
+  var railP = -1;
+  function railProgress(vh) {
+    if (!howto || !rail) return -1;
+    if (reduceMotion) return 1;
+    var top = howto.getBoundingClientRect().top;
+    return Math.min(Math.max((vh * 0.8 - top) / (vh * 0.5), 0), 1);
+  }
+  function updateRail(p) {
+    if (p < 0 || Math.abs(p - railP) < 0.002) return; // tidak berubah: jangan sentuh DOM
+    railP = p;
     rail.style.setProperty("--p", p.toFixed(3));
     var n = howtoItems.length;
     howtoItems.forEach(function (li, i) {
@@ -304,22 +314,27 @@
     });
   }
 
+  var lastProg = -1;
   function onScroll() {
     if (scrollTicking) return;
     scrollTicking = true;
     requestAnimationFrame(function () {
       scrollTicking = false;
-      var y = window.scrollY;
-      header.classList.toggle("is-scrolled", y > 10);
-      var max = document.documentElement.scrollHeight - window.innerHeight;
+      // Baca semua ukuran dulu, baru ubah tampilan (hindari layout paksa tiap frame)
+      var y = window.scrollY, vh = window.innerHeight;
+      var max = document.documentElement.scrollHeight - vh;
+      var rp = railProgress(vh);
       var prog = max > 0 ? Math.min(y / max, 1) : 0;
-      progress.style.transform = "scaleX(" + prog + ")";
-      if (toTop) {
-        toTop.classList.toggle("is-visible", y > 600);
-        toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
+
+      header.classList.toggle("is-scrolled", y > 10);
+      if (Math.abs(prog - lastProg) > 0.0005) {
+        lastProg = prog;
+        progress.style.transform = "scaleX(" + prog.toFixed(4) + ")";
+        if (toTop && y > 600) toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
       }
+      if (toTop) toTop.classList.toggle("is-visible", y > 600);
       if (scrollCue) scrollCue.classList.toggle("is-hidden", y > 80);
-      updateRail();
+      updateRail(rp);
       var dy = y - lastY;
       if (Math.abs(dy) > 8) {
         header.classList.toggle("is-hidden", dy > 0 && y > 320 && !megaOpen && !drawerOpen);
@@ -555,24 +570,131 @@
     hero.addEventListener("pointerleave", function () { pointer.inside = false; pointer.nx = 0; pointer.ny = 0; });
   }
 
+  // Panggung 3D digerakkan JavaScript hanya di komputer (mouse).
+  // Di HP/tablet goyangannya memakai animasi CSS yang dijalankan GPU
+  // (lihat .stage di style.css), jadi tidak ikut tersendat saat layar digeser.
+  var cur = { rx: 8, ry: -10 };
+  var stageRunning = false;
+  function stageLoop(t) {
+    if (!heroVisible || document.hidden) { stageRunning = false; return; }
+    var idle = !pointer.inside || (t - pointer.last > 2500);
+    var tx, ty;
+    if (idle) { tx = 6 + Math.sin(t / 2400) * 4; ty = -8 + Math.sin(t / 3100) * 7; }
+    else { tx = -pointer.ny * 11; ty = pointer.nx * 15; }
+    cur.rx += (tx - cur.rx) * 0.06;
+    cur.ry += (ty - cur.ry) * 0.06;
+    var sp = Math.min(window.scrollY / Math.max(hero.offsetHeight, 1), 1);
+    stage.style.transform = "rotateX(" + (cur.rx + sp * 16).toFixed(2) + "deg) rotateY(" + cur.ry.toFixed(2) + "deg) translateY(" + (-sp * 40).toFixed(1) + "px)";
+    stage.style.setProperty("--gx", (50 + cur.ry * 3).toFixed(1) + "%");
+    stage.style.setProperty("--gy", (30 - cur.rx * 3).toFixed(1) + "%");
+    requestAnimationFrame(stageLoop);
+  }
+  function startStage() {
+    if (!finePointer || reduceMotion || stageRunning) return;
+    stageRunning = true;
+    requestAnimationFrame(stageLoop);
+  }
+
+  // Gelombang titik 3D (canvas, tanpa library).
+  // Canvas hanya menutup 55% bagian bawah hero (bagian atas memang tak terlihat),
+  // dan efek memudar dihitung langsung saat menggambar, bukan pakai mask CSS.
+  var canvas = $("#heroCanvas");
+  var ctx = canvas && canvas.getContext && canvas.getContext("2d");
+  var W = 0, H = 0, cols = 0, rows = 0, waveRunning = false;
+  var waveT = 0, waveLast = 0, lastScrollT = -1e4;
+  var lite = !finePointer; // HP/tablet: resolusi & frame rate lebih hemat
+  var WAVE_TOP = 0.45, WAVE_FADE = 0.35, WAVE_RGB = "rgb(29,110,85)";
+  var mouseC = { x: -9999, y: -9999, s: 0 };
+
+  function sizeWave() {
+    if (!ctx) return false;
+    var w = hero.clientWidth, h = hero.clientHeight;
+    if (!w || !h || (w === W && h === H)) return false;
+    W = w; H = h;
+    var dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2);
+    var ch = H * (1 - WAVE_TOP);
+    canvas.width = Math.max(1, Math.round(W * dpr));
+    canvas.height = Math.max(1, Math.round(ch * dpr));
+    var kx = canvas.width / W, ky = canvas.height / ch;
+    ctx.setTransform(kx, 0, 0, ky, 0, -H * WAVE_TOP * ky); // tetap pakai koordinat hero penuh
+    cols = W < 700 ? 34 : 60;
+    rows = W < 700 ? 18 : 28;
+    return true;
+  }
+
+  function drawWave(t) {
+    ctx.clearRect(0, 0, W, H);
+    var horizon = H * 0.6, cx = W / 2, sx = W * 0.17, sy = H * 0.7;
+    var fadeTop = H * WAVE_TOP, fadeLen = H * WAVE_FADE;
+    var targetS = pointer.inside ? 1 : 0;
+    mouseC.s += (targetS - mouseC.s) * 0.06;
+    if (pointer.inside) {
+      if (mouseC.x < -1000) { mouseC.x = pointer.x; mouseC.y = pointer.y; }
+      mouseC.x += (pointer.x - mouseC.x) * 0.12;
+      mouseC.y += (pointer.y - mouseC.y) * 0.12;
+    }
+    var sigma2 = 2 * 140 * 140, lifting = mouseC.s > 0.01, tinted = false;
+    ctx.fillStyle = WAVE_RGB;
+    for (var j = 0; j < rows; j++) {
+      var v = j / (rows - 1);
+      var s = 1 / (1 + v * 4);
+      for (var i = 0; i < cols; i++) {
+        var u = i / (cols - 1) * 2 - 1;
+        var px = cx + u * 6 * s * sx;
+        if (px < -10 || px > W + 10) continue;
+        var y = Math.sin(u * 3 + t * 0.0009) * 0.11 + Math.cos(v * 7 - t * 0.0012) * 0.09 + Math.sin((u + v) * 5 + t * 0.0006) * 0.05;
+        var py = horizon + (0.62 - y) * s * sy;
+        var lift = 0;
+        if (lifting) {
+          var dx = px - mouseC.x, dy = py - mouseC.y;
+          lift = Math.exp(-(dx * dx + dy * dy) / sigma2) * mouseC.s;
+          py -= lift * 60 * (0.4 + s);
+        }
+        var f = (py - fadeTop) / fadeLen; // memudar ke arah atas
+        if (f <= 0) continue;
+        var a = ((0.06 + 0.34 * s) * (1 - v * 0.5) + lift * 0.5) * (f < 1 ? f : 1);
+        if (a < 0.01) continue;
+        var k = Math.min(lift * 1.5, 1);
+        if (k > 0.02) {
+          ctx.fillStyle = "rgb(" + Math.round(29 + 197 * k) + "," + Math.round(110 + 2 * k) + "," + Math.round(85 - 27 * k) + ")";
+          tinted = true;
+        } else if (tinted) { ctx.fillStyle = WAVE_RGB; tinted = false; }
+        ctx.globalAlpha = a > 1 ? 1 : a;
+        ctx.beginPath();
+        ctx.arc(px, py, 0.7 + 2.3 * s + lift * 1.5, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function waveLoop(t) {
+    if (!heroVisible || document.hidden) { waveRunning = false; return; }
+    requestAnimationFrame(waveLoop);
+    if (!waveLast) waveLast = t - 16;
+    var dt = t - waveLast;
+    if (lite) {
+      // HP: diam sejenak selama layar digeser (scroll jadi prioritas), lalu ~30 fps
+      if (t - lastScrollT < 200) { waveLast = t; return; }
+      if (dt < 30) return;
+    }
+    waveLast = t;
+    waveT += Math.min(dt, 50);
+    drawWave(waveT);
+  }
+  function startWave() {
+    if (!ctx || reduceMotion || waveRunning) return;
+    waveRunning = true;
+    waveLast = 0;
+    requestAnimationFrame(waveLoop);
+  }
+  if (lite) window.addEventListener("scroll", function () { lastScrollT = performance.now(); }, { passive: true });
+  if (ctx) {
+    sizeWave();
+    if (reduceMotion) drawWave(0); else startWave();
+  }
+
   if (!reduceMotion) {
-    var cur = { rx: 8, ry: -10 };
-    var stageRunning = false;
-    var stageLoop = function (t) {
-      if (!heroVisible || document.hidden) { stageRunning = false; return; }
-      var idle = !pointer.inside || (t - pointer.last > 2500);
-      var tx, ty;
-      if (idle) { tx = 6 + Math.sin(t / 2400) * 4; ty = -8 + Math.sin(t / 3100) * 7; }
-      else { tx = -pointer.ny * 11; ty = pointer.nx * 15; }
-      cur.rx += (tx - cur.rx) * 0.06;
-      cur.ry += (ty - cur.ry) * 0.06;
-      var sp = Math.min(window.scrollY / Math.max(hero.offsetHeight, 1), 1);
-      stage.style.transform = "rotateX(" + (cur.rx + sp * 16).toFixed(2) + "deg) rotateY(" + cur.ry.toFixed(2) + "deg) translateY(" + (-sp * 40).toFixed(1) + "px)";
-      stage.style.setProperty("--gx", (50 + cur.ry * 3).toFixed(1) + "%");
-      stage.style.setProperty("--gy", (30 - cur.rx * 3).toFixed(1) + "%");
-      requestAnimationFrame(stageLoop);
-    };
-    var startStage = function () { if (!stageRunning) { stageRunning = true; requestAnimationFrame(stageLoop); } };
     startStage();
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
@@ -585,81 +707,19 @@
     });
   }
 
-  // Gelombang titik 3D (canvas, tanpa library)
-  var canvas = $("#heroCanvas");
-  var ctx = canvas.getContext && canvas.getContext("2d");
-  var W = 0, H = 0, cols = 0, rows = 0, waveRunning = false;
-  var mouseC = { x: -9999, y: -9999, s: 0 };
-
-  function sizeWave() {
-    if (!ctx) return;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = hero.clientWidth; H = hero.clientHeight;
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cols = W < 700 ? 34 : 60;
-    rows = W < 700 ? 18 : 28;
-  }
-
-  function drawWave(t) {
-    ctx.clearRect(0, 0, W, H);
-    var horizon = H * 0.6, cx = W / 2, sx = W * 0.17, sy = H * 0.7;
-    var targetS = pointer.inside ? 1 : 0;
-    mouseC.s += (targetS - mouseC.s) * 0.06;
-    if (pointer.inside) {
-      if (mouseC.x < -1000) { mouseC.x = pointer.x; mouseC.y = pointer.y; }
-      mouseC.x += (pointer.x - mouseC.x) * 0.12;
-      mouseC.y += (pointer.y - mouseC.y) * 0.12;
-    }
-    var sigma2 = 2 * 140 * 140;
-    for (var j = 0; j < rows; j++) {
-      var v = j / (rows - 1);
-      var s = 1 / (1 + v * 4);
-      for (var i = 0; i < cols; i++) {
-        var u = i / (cols - 1) * 2 - 1;
-        var px = cx + u * 6 * s * sx;
-        if (px < -10 || px > W + 10) continue;
-        var y = Math.sin(u * 3 + t * 0.0009) * 0.11 + Math.cos(v * 7 - t * 0.0012) * 0.09 + Math.sin((u + v) * 5 + t * 0.0006) * 0.05;
-        var py = horizon + (0.62 - y) * s * sy;
-        var lift = 0;
-        if (mouseC.s > 0.01) {
-          var dx = px - mouseC.x, dy = py - mouseC.y;
-          lift = Math.exp(-(dx * dx + dy * dy) / sigma2) * mouseC.s;
-          py -= lift * 60 * (0.4 + s);
-        }
-        var k = Math.min(lift * 1.5, 1);
-        var r = Math.round(29 + 197 * k), g = Math.round(110 + 2 * k), b = Math.round(85 - 27 * k);
-        var a = (0.06 + 0.34 * s) * (1 - v * 0.5) + lift * 0.5;
-        ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + a.toFixed(3) + ")";
-        ctx.beginPath();
-        ctx.arc(px, py, 0.7 + 2.3 * s + lift * 1.5, 0, 6.2832);
-        ctx.fill();
-      }
-    }
-  }
-
-  function waveLoop(t) {
-    if (!heroVisible || document.hidden) { waveRunning = false; return; }
-    drawWave(t);
-    requestAnimationFrame(waveLoop);
-  }
-  function startWave() {
-    if (!ctx || reduceMotion || waveRunning) return;
-    waveRunning = true;
-    requestAnimationFrame(waveLoop);
-  }
-  if (ctx) {
-    sizeWave();
-    if (reduceMotion) drawWave(0); else startWave();
-  }
-
   /* ---------- Resize ---------- */
-  var resizeTimer;
+  // Ukuran canvas mengikuti ukuran hero yang sebenarnya (termasuk saat font selesai dimuat)
+  var hasRO = "ResizeObserver" in window;
+  if (ctx && hasRO) new ResizeObserver(function () { if (sizeWave()) drawWave(waveT); }).observe(hero);
+  var resizeTimer, lastW = window.innerWidth;
   window.addEventListener("resize", function () {
+    // iPhone memicu "resize" setiap bilah alamat muncul/hilang saat scroll
+    // (hanya tingginya yang berubah) — abaikan supaya tidak tersendat.
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
-      if (ctx) { sizeWave(); if (reduceMotion) drawWave(0); }
+      if (ctx && !hasRO && sizeWave()) drawWave(waveT);
       if (window.innerWidth > 1024) setDrawer(false);
       moveIndicator(activeNavLink());
     }, 150);
@@ -773,7 +833,7 @@
   revealAll(".platforms", 0);
   revealAll(".cta", 0, "zoom");
   revealAll(".footer__grid > div", 90);
-  updateRail();
+  updateRail(railProgress(window.innerHeight));
 
   render();
   window.__venusReady = true;

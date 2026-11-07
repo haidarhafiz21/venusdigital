@@ -29,7 +29,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
 body { margin: 0; font-family: var(--font); color: var(--body); background: var(--bg); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 body.no-scroll { overflow: hidden; }
 main { overflow-x: clip; }
@@ -180,7 +180,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .drawer.is-open { transform: none; visibility: visible; }
 .drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
 .drawer__close { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink); }
-.drawer__nav { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 2px; }
+.drawer__nav { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 12px; display: flex; flex-direction: column; gap: 2px; }
 .drawer__nav > a, .drawer__group summary { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; border-radius: 10px; font-weight: 600; color: var(--ink); font-size: 1rem; transition: background .2s; }
 .drawer__nav > a:hover, .drawer__group summary:hover { background: var(--green-50); }
 .drawer.is-open .drawer__nav > * { animation: drawerIn .55s var(--ease) both; animation-delay: calc(var(--i, 0) * 50ms + 120ms); }
@@ -200,7 +200,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
    HERO + 3D
    ========================================================= */
 .hero { position: relative; overflow: hidden; margin-top: calc(var(--header-h) * -1); padding: calc(var(--header-h) + 48px) 0 96px; background: linear-gradient(180deg, var(--green-50) 0%, #f5f8f4 55%, var(--bg) 100%); border-bottom: 1px solid var(--line); }
-.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent 45%, #000 80%); mask-image: linear-gradient(to bottom, transparent 45%, #000 80%); }
+.hero__canvas { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 55%; z-index: 0; pointer-events: none; }
 .hero__spot { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 35%), rgba(58, 134, 112, .13), transparent 62%); }
 .hero__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; }
 .hero__inner > *, .custom > *, .area-wrap > *, .bundle > * { min-width: 0; }
@@ -521,7 +521,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 /* ---------- Modal ---------- */
 .modal { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 20px; }
 .modal__overlay { position: absolute; inset: 0; background: rgba(10, 30, 25, .55); animation: fadeIn .25s ease; }
-.modal__box { position: relative; background: #fff; border-radius: 18px; width: 100%; max-width: 780px; max-height: calc(100vh - 40px); overflow-y: auto; display: grid; grid-template-columns: 1fr 1.1fr; animation: pop .4s var(--ease); }
+.modal__box { position: relative; background: #fff; border-radius: 18px; width: 100%; max-width: 780px; max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); overflow-y: auto; overscroll-behavior: contain; display: grid; grid-template-columns: 1fr 1.1fr; animation: pop .4s var(--ease); }
 .modal__thumb { position: relative; min-height: 280px; }
 .modal__body { padding: 28px; }
 .modal__body h3 { font-size: 1.35rem; margin-top: 10px; }
@@ -546,7 +546,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .palette__input .i { color: var(--muted); width: 20px; height: 20px; }
 .palette__input input { flex: 1; min-width: 0; border: 0; outline: 0; font-size: 1.02rem; background: transparent; color: var(--ink); }
 .palette__input input:focus-visible { outline: none; }
-.palette__list { list-style: none; margin: 0; padding: 6px 8px 10px; max-height: min(52vh, 420px); overflow-y: auto; }
+.palette__list { list-style: none; margin: 0; padding: 6px 8px 10px; max-height: min(52vh, 420px); overflow-y: auto; overscroll-behavior: contain; }
 .palette__label { padding: 10px 10px 6px; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .palette__item { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; text-align: left; transition: background .15s; }
 .palette__item.is-active { background: var(--green-50); }
@@ -619,7 +619,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 
 @media (max-width: 560px) {
   :root { --header-h: 70px; }
-  .container { padding: 0 16px; }
+  .container { padding-left: 16px; padding-right: 16px; }
   .header__bar { height: 56px; padding: 0 8px 0 14px; gap: 10px; }
   .header__cta { display: none; }
   .section { padding: 56px 0; }
@@ -807,7 +807,11 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 @keyframes cue { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(13px); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
 
 /* Pita produk berjalan */
-.marquee { position: relative; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); padding: 15px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.marquee { position: relative; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); padding: 15px 0; }
+/* Tepi memudar pakai lapisan gradasi putih (lebih ringan daripada mask di iPhone) */
+.marquee::before, .marquee::after { content: ""; position: absolute; top: 0; bottom: 0; z-index: 1; width: 7%; pointer-events: none; background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0)); }
+.marquee::before { left: 0; }
+.marquee::after { right: 0; transform: scaleX(-1); }
 .marquee__track { display: flex; width: max-content; animation: marquee 55s linear infinite; }
 .marquee:hover .marquee__track, .marquee:focus-within .marquee__track { animation-play-state: paused; }
 .marquee__group { display: flex; align-items: center; flex-shrink: 0; }
@@ -921,4 +925,26 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
   @view-transition { navigation: none; }
   .js .reveal .split .w > span { transform: none; }
   .js .reveal:not(.in) .eyebrow::before, .js .reveal:not(.in) .eyebrow::after { transform: none; }
+}
+
+/* =========================================================
+   PERANGKAT SENTUH (HP & tablet): versi ringan supaya scroll mulus.
+   Berlaku untuk semua perangkat yang TIDAK memakai mouse.
+   ========================================================= */
+@media not all and (hover: hover) and (pointer: fine) {
+  /* Panggung 3D bergoyang lewat animasi CSS (dijalankan GPU), bukan JavaScript */
+  .stage { animation: stageSway 7s ease-in-out infinite alternate; }
+  /* Kilau dengan blend-mode berat dirender ulang tiap frame di Safari */
+  .glare { display: none; }
+  /* Blur di belakang navbar harus dihitung ulang setiap kali layar bergeser: ganti latar padat */
+  .header__bar::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, .97); }
+  /* Gerak muncul lebih pendek & cepat agar terasa ringan */
+  .js .reveal, .js .reveal--left, .js .reveal--right { transform: translate3d(0, 26px, 0); }
+  .js .reveal--zoom { transform: scale(.97) translate3d(0, 18px, 0); }
+  .js .reveal { transition-duration: .7s, .75s, .3s, .3s, .3s; }
+  .js .reveal .split .w > span { transition-duration: .7s; }
+}
+@keyframes stageSway {
+  from { transform: rotateX(8deg) rotateY(-12deg); }
+  to { transform: rotateX(4deg) rotateY(-5deg); }
 }
