@@ -9,9 +9,13 @@
   function $(s) { return document.querySelector(s); }
   function $all(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
 
-  /* ---------- Navbar: bayangan, sembunyi/muncul, progress ---------- */
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* ---------- Navbar: bayangan, sembunyi/muncul, progress, kembali ke atas ---------- */
   var header = $("#header");
   var progress = $("#progress");
+  var toTop = $("#toTop"), toTopBar = $("#toTopBar"), RING = 131.95;
   var lastY = window.scrollY, ticking = false, drawerOpen = false;
 
   function onScroll() {
@@ -22,7 +26,12 @@
       var y = window.scrollY;
       header.classList.toggle("is-scrolled", y > 10);
       var max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress) progress.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+      var prog = max > 0 ? Math.min(y / max, 1) : 0;
+      if (progress) progress.style.transform = "scaleX(" + prog + ")";
+      if (toTop) {
+        toTop.classList.toggle("is-visible", y > 600);
+        toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
+      }
       if (Math.abs(y - lastY) > 8) {
         header.classList.toggle("is-hidden", y > lastY && y > 320 && !drawerOpen);
         lastY = y;
@@ -32,6 +41,57 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   header.addEventListener("focusin", function () { header.classList.remove("is-hidden"); });
   onScroll();
+  if (toTop) toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
+
+  /* ---------- Bar beli di bawah layar (halaman produk) ----------
+     Dicek dari posisi tombol beli setiap scroll (bukan IntersectionObserver),
+     supaya tetap muncul walau halaman digulir sangat cepat. */
+  var buybar = $("#buybar"), buyAnchor = $(".pd__actions"), buybarOn = null;
+  function updateBuybar() {
+    if (!buybar || !buyAnchor) return;
+    var show = buyAnchor.getBoundingClientRect().bottom < 0;
+    if (show === buybarOn) return;
+    buybarOn = show;
+    buybar.classList.toggle("is-visible", show);
+    buybar.setAttribute("aria-hidden", show ? "false" : "true");
+    document.body.classList.toggle("buybar-on", show);
+  }
+  window.addEventListener("scroll", updateBuybar, { passive: true });
+  window.addEventListener("resize", updateBuybar);
+  updateBuybar();
+
+  /* ---------- Efek miring 3D: kartu produk & gambar produk ---------- */
+  if (finePointer && !reduceMotion) {
+    var tiltTarget = null;
+    var reset = function (el) { if (el) { el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg"); } };
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var el = e.target.closest(".product__card, .pd__media");
+      if (el !== tiltTarget) { reset(tiltTarget); tiltTarget = el; }
+      if (!el) return;
+      var box = (el.classList.contains("product__card") ? el.parentNode : el).getBoundingClientRect();
+      var x = (e.clientX - box.left) / box.width, y = (e.clientY - box.top) / box.height;
+      var k = el.classList.contains("pd__media") ? 8 : 12;
+      el.style.setProperty("--ry", ((x - 0.5) * k).toFixed(2) + "deg");
+      el.style.setProperty("--rx", ((0.5 - y) * k * 0.8).toFixed(2) + "deg");
+      el.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
+      el.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+    }, { passive: true });
+    document.addEventListener("pointerleave", function () { reset(tiltTarget); tiltTarget = null; });
+  }
+
+  /* ---------- Judul muncul per kata ---------- */
+  if (!reduceMotion) $all(".section__head h2, .cta h2").forEach(function (el) {
+    if (el.children.length) return;
+    var text = el.textContent.trim().replace(/\s+/g, " ");
+    el.setAttribute("aria-label", text);
+    el.classList.add("split");
+    el.innerHTML = text.split(" ").map(function (w, i) {
+      return '<span class="w" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + "</span></span>";
+    }).join(" ");
+  });
 
   /* ---------- Drawer (menu mobile) ---------- */
   var burger = $("#burger"), drawer = $("#drawer"), backdrop = $("#drawerBackdrop");

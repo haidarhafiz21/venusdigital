@@ -782,3 +782,143 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
   .prose th, .prose td { padding: 8px 10px; white-space: normal; }
   .prose .num { white-space: nowrap; }
 }
+
+/* =========================================================
+   GERAK & SENTUHAN PROFESIONAL (v2)
+   ========================================================= */
+
+/* Judul muncul per kata dari balik "tirai" */
+.split .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .12em; margin-bottom: -.12em; }
+.split .w > span { display: inline-block; }
+.js .reveal .split .w > span { transform: translateY(110%); transition: transform .9s var(--ease); transition-delay: calc(var(--wi, 0) * 45ms + 100ms); }
+.js .reveal.in .split .w > span { transform: none; }
+
+/* Label kecil dengan garis yang memanjang */
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transform-origin: right center; transition: transform .8s var(--ease) .25s; }
+.section__head--center .eyebrow::after { content: ""; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transform-origin: left center; transition: transform .8s var(--ease) .25s; }
+.js .reveal:not(.in) .eyebrow::before, .js .reveal:not(.in) .eyebrow::after { transform: scaleX(0); }
+
+/* Petunjuk scroll di hero */
+.scroll-cue { position: absolute; left: 50%; bottom: 26px; z-index: 2; width: 24px; height: 38px; margin-left: -12px; border: 2px solid rgba(15, 61, 51, .3); border-radius: 14px; transition: opacity .4s, border-color .3s; animation: heroIn 1s var(--ease) 1.2s both; }
+.scroll-cue span { position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--orange); animation: cue 1.9s var(--ease) infinite; }
+.scroll-cue:hover { border-color: var(--green-700); }
+.scroll-cue.is-hidden { opacity: 0; pointer-events: none; }
+@keyframes cue { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(13px); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
+
+/* Pita produk berjalan */
+.marquee { position: relative; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); padding: 15px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.marquee__track { display: flex; width: max-content; animation: marquee 55s linear infinite; }
+.marquee:hover .marquee__track, .marquee:focus-within .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; align-items: center; flex-shrink: 0; }
+.marquee__item { display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: .95rem; color: var(--body); white-space: nowrap; transition: color .25s; }
+.marquee__item:hover { color: var(--green-700); }
+.marquee__item::after { content: ""; width: 7px; height: 7px; border-radius: 1px; background: var(--orange); opacity: .7; transform: rotate(45deg); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Kilau sekali saat kartu produk muncul */
+.product__thumb::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .55) 50%, transparent 62%); transform: translateX(-110%); }
+.reveal.in .product__thumb::after { animation: thumbShine 1.3s var(--ease) .35s both; }
+@keyframes thumbShine { from { transform: translateX(-110%); } to { transform: translateX(110%); } }
+
+/* Garis progres "Cara Beli" yang terisi saat di-scroll */
+.howto-rail { position: relative; height: 16px; margin: 0 12.5% 26px; }
+.howto-rail::before, .howto-rail__fill { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; }
+.howto-rail::before { background: var(--line); }
+.howto-rail__fill { background: linear-gradient(90deg, var(--green-500), var(--orange)); transform-origin: left center; transform: scaleX(var(--p, 0)); }
+.howto-rail i { position: absolute; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #fff; border: 2px solid #d5dbd7; transition: background .35s, border-color .35s, transform .45s var(--ease), box-shadow .35s; }
+.howto-rail i:nth-of-type(1) { left: 0; }
+.howto-rail i:nth-of-type(2) { left: 33.333%; }
+.howto-rail i:nth-of-type(3) { left: 66.667%; }
+.howto-rail i:nth-of-type(4) { left: 100%; }
+.howto-rail i.is-on { background: var(--orange); border-color: var(--orange); transform: scale(1.15); box-shadow: 0 0 0 6px rgba(226, 112, 58, .15); }
+.howto__ic { transition: transform .45s var(--ease), background .35s; }
+.howto li.is-on .howto__ic { background: var(--orange); }
+.howto li.is-on::before { color: rgba(226, 112, 58, .45); }
+
+/* Tabel perbandingan */
+.compare { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+.compare__row { display: grid; grid-template-columns: 1fr 1.15fr 1.3fr; border-top: 1px solid var(--line); }
+.compare__row:first-child { border-top: 0; }
+.compare__row > span { display: flex; align-items: center; gap: 10px; padding: 16px 20px; font-size: .94rem; transition: background-color .25s; }
+.compare__label { font-weight: 700; color: var(--ink); }
+.compare__row--head > span { font-size: .9rem; font-weight: 700; color: var(--muted); padding-top: 18px; padding-bottom: 18px; }
+.compare .is-us { background: var(--green-50); }
+.compare__row--head .is-us { background: var(--green-900); color: #fff; }
+.compare__row:not(.compare__row--head):hover > span { background-color: #fafbfa; }
+.compare__row:not(.compare__row--head):hover > .is-us { background-color: var(--green-100); }
+.compare__no { color: var(--muted); }
+.compare__yes { color: var(--ink); font-weight: 600; }
+.compare__no .i, .compare__yes .i { width: 20px; height: 20px; padding: 4px; border-radius: 50%; stroke-width: 3; flex-shrink: 0; }
+.compare__no .i { color: #c2453a; background: #fbe9e7; }
+.compare__yes .i { color: #fff; background: var(--green-700); }
+.platforms { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-top: 28px; }
+.platforms__label { font-size: .85rem; color: var(--muted); margin-right: 4px; }
+.platform { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: .86rem; font-weight: 600; color: var(--ink); transition: border-color .25s, transform .35s var(--ease); }
+.platform:hover { border-color: var(--green-500); transform: translateY(-2px); }
+.platform .i { color: var(--green-700); }
+
+/* FAQ: buka-tutup dengan tinggi yang halus */
+.faq details { overflow: hidden; }
+
+/* Tombol kembali ke atas dengan cincin progres */
+.totop { position: fixed; right: 26px; bottom: 88px; z-index: 79; width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--green-900); box-shadow: 0 8px 22px -10px rgba(15, 61, 51, .45); display: grid; place-items: center; opacity: 0; visibility: hidden; transform: translateY(14px) scale(.9); transition: opacity .35s, visibility .35s, transform .45s var(--ease), bottom .45s var(--ease); }
+.totop.is-visible { opacity: 1; visibility: visible; transform: none; }
+.totop__ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.totop__track, .totop__bar { fill: none; stroke-width: 3; }
+.totop__track { stroke: var(--green-100); }
+.totop__bar { stroke: var(--orange); stroke-linecap: round; stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
+.totop > .i { position: relative; width: 18px; height: 18px; transition: transform .3s var(--ease); }
+.totop:hover > .i { transform: translateY(-3px); }
+.wa-float { transition: transform .3s var(--ease), bottom .45s var(--ease); }
+
+/* Transisi halus saat pindah halaman (browser yang mendukung) */
+@view-transition { navigation: auto; }
+.header__bar { view-transition-name: site-header; }
+::view-transition-old(root) { animation: vtOut .22s ease both; }
+::view-transition-new(root) { animation: vtIn .45s var(--ease) both; }
+@keyframes vtOut { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vtIn { from { opacity: 0; transform: translateY(12px); } }
+
+/* Halaman turunan: judul masuk bertahap, gambar produk miring 3D */
+.subhero > .container > :not(.pd) { animation: heroIn .9s var(--ease) both; }
+.subhero > .container > :nth-child(2) { animation-delay: .08s; }
+.subhero > .container > :nth-child(3) { animation-delay: .16s; }
+.subhero > .container > :nth-child(4) { animation-delay: .24s; }
+.subhero > .container > :nth-child(5) { animation-delay: .32s; }
+.js .reveal.in.pd__media { transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease), opacity .9s var(--ease); }
+.pd__media .mwin { transition: transform .6s var(--ease); }
+.pd__media:hover .mwin { transform: translateY(-4px) scale(1.02); }
+
+/* Bar beli di bawah layar (halaman produk, HP & tablet) */
+.buybar { display: none; }
+
+@media (max-width: 960px) {
+  .scroll-cue, .howto-rail { display: none; }
+  .buybar { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 85; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 16px; background: rgba(255, 255, 255, .97); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lg); transform: translateY(calc(100% + 24px)); transition: transform .45s var(--ease); }
+  .buybar.is-visible { transform: none; }
+  .buybar__info { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
+  .buybar__info b { font-size: .85rem; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .buybar__info span { font-weight: 800; color: var(--green-900); }
+  .buybar .btn { padding: 11px 16px; flex-shrink: 0; }
+  body.buybar-on .wa-float { bottom: 92px; }
+  body.buybar-on .totop { bottom: 156px; }
+}
+@media (max-width: 600px) {
+  .compare__row { grid-template-columns: 1fr 1fr; }
+  .compare__label { grid-column: 1 / -1; padding-bottom: 6px !important; background: #fafbfa; }
+  .compare__row--head .compare__label { display: none; }
+  .compare__row > span { padding: 12px 14px; font-size: .86rem; }
+}
+@media (max-width: 560px) {
+  .totop { right: 18px; bottom: 76px; width: 40px; height: 40px; }
+  .platforms__label { width: 100%; text-align: center; margin: 0; }
+  .marquee { padding: 12px 0; }
+  .marquee__item { font-size: .88rem; gap: 22px; padding-right: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .js .reveal .split .w > span { transform: none; }
+  .js .reveal:not(.in) .eyebrow::before, .js .reveal:not(.in) .eyebrow::after { transform: none; }
+}

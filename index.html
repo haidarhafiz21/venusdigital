@@ -97,6 +97,9 @@
       <symbol id="i-star" viewBox="0 0 24 24"><path class="fill" d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
       <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
       <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+      <symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
     </defs>
   </svg>
 
@@ -267,6 +270,7 @@
           </div>
         </div>
       </div>
+      <a href="#produk" class="scroll-cue" id="scrollCue" aria-label="Gulir ke katalog produk"><span></span></a>
     </section>
 
     <!-- TRUST BAR -->
@@ -282,6 +286,40 @@
         </div>
       </div>
     </section>
+
+    <!-- PITA PRODUK BERJALAN (berhenti saat disorot) -->
+    <nav class="marquee" aria-label="Daftar produk">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <a class="marquee__item" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
+          <a class="marquee__item" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
+          <a class="marquee__item" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
+          <a class="marquee__item" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
+          <a class="marquee__item" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
+          <a class="marquee__item" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
+          <a class="marquee__item" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
+          <a class="marquee__item" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
+          <a class="marquee__item" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
+          <a class="marquee__item" href="produk/template-website-toko-online/">Website Toko Online</a>
+          <a class="marquee__item" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
+          <a class="marquee__item" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
+        </div>
+        <div class="marquee__group" aria-hidden="true">
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-website-toko-online/">Website Toko Online</a>
+          <a class="marquee__item" tabindex="-1" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
+          <a class="marquee__item" tabindex="-1" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
+        </div>
+      </div>
+    </nav>
 
     <!-- KATEGORI -->
     <section class="section section--tight">
@@ -354,7 +392,8 @@
           <p class="eyebrow">Cara Beli</p>
           <h2>Empat langkah, file langsung di tangan</h2>
         </div>
-        <ol class="howto">
+        <div class="howto-rail" id="howtoRail" aria-hidden="true"><span class="howto-rail__fill"></span><i></i><i></i><i></i><i></i></div>
+        <ol class="howto" id="howto">
           <li><span class="howto__ic"><svg class="i"><use href="#i-search"/></svg></span><b>Pilih produk</b><p>Lihat detail dan contoh tampilan setiap template.</p></li>
           <li><span class="howto__ic"><svg class="i"><use href="#i-qr"/></svg></span><b>Bayar</b><p>Via QRIS, transfer bank, atau e-wallet.</p></li>
           <li><span class="howto__ic"><svg class="i"><use href="#i-download"/></svg></span><b>Terima file</b><p>Link unduhan dikirim ke WhatsApp & email Anda.</p></li>
@@ -375,6 +414,31 @@
           <article class="feature"><span class="feature__ic"><svg class="i"><use href="#i-refresh"/></svg></span><h3>Update gratis</h3><p>Setiap ada versi baru, Anda mendapatkannya tanpa biaya tambahan.</p></article>
           <article class="feature"><span class="feature__ic"><svg class="i"><use href="#i-shield"/></svg></span><h3>Garansi 7 hari</h3><p>Jika file tidak bisa dibuka atau tidak sesuai deskripsi, uang kembali.</p></article>
           <article class="feature"><span class="feature__ic"><svg class="i"><use href="#i-headset"/></svg></span><h3>Bantuan nyata</h3><p>Dijawab langsung oleh tim kami di Pamekasan, bukan bot.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERBANDINGAN -->
+    <section class="section" id="perbandingan">
+      <div class="container container--narrow">
+        <div class="section__head section__head--center">
+          <p class="eyebrow">Perbandingan</p>
+          <h2>Buat sendiri atau pakai template?</h2>
+        </div>
+        <div class="compare" role="table" aria-label="Perbandingan membuat sendiri dan memakai template">
+          <div class="compare__row compare__row--head" role="row"><span role="columnheader" class="compare__label"></span><span role="columnheader">Buat sendiri</span><span role="columnheader" class="is-us">Template Venus Digital</span></div>
+          <div class="compare__row" role="row"><span role="rowheader" class="compare__label">Waktu persiapan</span><span role="cell" class="compare__no"><svg class="i"><use href="#i-x"/></svg>Berjam-jam hingga berhari-hari</span><span role="cell" class="compare__yes is-us"><svg class="i"><use href="#i-check"/></svg>Bisa dipakai hari ini</span></div>
+          <div class="compare__row" role="row"><span role="rowheader" class="compare__label">Rumus &amp; grafik</span><span role="cell" class="compare__no"><svg class="i"><use href="#i-x"/></svg>Disusun dan dicek sendiri</span><span role="cell" class="compare__yes is-us"><svg class="i"><use href="#i-check"/></svg>Sudah jadi, tinggal isi data</span></div>
+          <div class="compare__row" role="row"><span role="rowheader" class="compare__label">Tampilan</span><span role="cell" class="compare__no"><svg class="i"><use href="#i-x"/></svg>Seadanya</span><span role="cell" class="compare__yes is-us"><svg class="i"><use href="#i-check"/></svg>Rapi dan siap cetak</span></div>
+          <div class="compare__row" role="row"><span role="rowheader" class="compare__label">Panduan</span><span role="cell" class="compare__no"><svg class="i"><use href="#i-x"/></svg>Cari tutorial sendiri</span><span role="cell" class="compare__yes is-us"><svg class="i"><use href="#i-check"/></svg>Video panduan + bantuan WhatsApp</span></div>
+          <div class="compare__row" role="row"><span role="rowheader" class="compare__label">Jika ada masalah</span><span role="cell" class="compare__no"><svg class="i"><use href="#i-x"/></svg>Diperbaiki sendiri</span><span role="cell" class="compare__yes is-us"><svg class="i"><use href="#i-check"/></svg>Garansi 7 hari</span></div>
+        </div>
+        <div class="platforms">
+          <span class="platforms__label">Bisa dibuka di</span>
+          <span class="platform"><svg class="i"><use href="#i-sheet"/></svg>Microsoft Excel</span>
+          <span class="platform"><svg class="i"><use href="#i-sheet"/></svg>Google Sheets</span>
+          <span class="platform"><svg class="i"><use href="#i-monitor"/></svg>Windows &amp; Mac</span>
+          <span class="platform"><svg class="i"><use href="#i-smartphone"/></svg>Android &amp; iPhone</span>
         </div>
       </div>
     </section>
@@ -568,6 +632,11 @@
       <span class="footer__legal"><a href="kebijakan-privasi/">Kebijakan Privasi</a><a href="syarat-ketentuan/">Syarat & Ketentuan</a><a href="kebijakan-refund/">Kebijakan Refund</a></span>
     </div>
   </footer>
+
+  <button type="button" class="totop" id="toTop" aria-label="Kembali ke atas">
+    <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="totop__track" cx="24" cy="24" r="21"/><circle class="totop__bar" id="toTopBar" cx="24" cy="24" r="21"/></svg>
+    <svg class="i"><use href="#i-arrow-up"/></svg>
+  </button>
 
   <a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>

@@ -285,6 +285,24 @@
   var progress = $("#progress");
   var lastY = window.scrollY;
   var scrollTicking = false;
+  var toTop = $("#toTop"), toTopBar = $("#toTopBar"), scrollCue = $("#scrollCue");
+  var RING = 131.95; // keliling lingkaran r=21
+
+  // Garis progres "Cara Beli" yang terisi mengikuti scroll (naik & turun)
+  var howto = $("#howto"), rail = $("#howtoRail");
+  var howtoItems = howto ? $all("li", howto) : [], railDots = rail ? $all("i", rail) : [];
+  function updateRail() {
+    if (!howto || !rail) return;
+    var r = howto.getBoundingClientRect(), vh = window.innerHeight;
+    var p = reduceMotion ? 1 : Math.min(Math.max((vh * 0.8 - r.top) / (vh * 0.5), 0), 1);
+    rail.style.setProperty("--p", p.toFixed(3));
+    var n = howtoItems.length;
+    howtoItems.forEach(function (li, i) {
+      var on = p >= i / (n - 1) - 0.001;
+      li.classList.toggle("is-on", on);
+      if (railDots[i]) railDots[i].classList.toggle("is-on", on);
+    });
+  }
 
   function onScroll() {
     if (scrollTicking) return;
@@ -294,7 +312,14 @@
       var y = window.scrollY;
       header.classList.toggle("is-scrolled", y > 10);
       var max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+      var prog = max > 0 ? Math.min(y / max, 1) : 0;
+      progress.style.transform = "scaleX(" + prog + ")";
+      if (toTop) {
+        toTop.classList.toggle("is-visible", y > 600);
+        toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
+      }
+      if (scrollCue) scrollCue.classList.toggle("is-hidden", y > 80);
+      updateRail();
       var dy = y - lastY;
       if (Math.abs(dy) > 8) {
         header.classList.toggle("is-hidden", dy > 0 && y > 320 && !megaOpen && !drawerOpen);
@@ -305,6 +330,9 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   header.addEventListener("focusin", function () { header.classList.remove("is-hidden"); });
   onScroll();
+  if (toTop) toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
 
   // Indikator yang meluncur di bawah menu
   var navEl = $("#nav");
@@ -693,6 +721,41 @@
   $("#ctaWa").href = generalWa;
   $("#year").textContent = new Date().getFullYear();
 
+  /* ---------- Judul muncul per kata ---------- */
+  function splitWords(el) {
+    if (!el || el.children.length || el.getAttribute("data-split")) return;
+    var text = el.textContent.trim().replace(/\s+/g, " ");
+    el.setAttribute("aria-label", text);
+    el.setAttribute("data-split", "1");
+    el.classList.add("split");
+    el.innerHTML = text.split(" ").map(function (w, i) {
+      return '<span class="w" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + "</span></span>";
+    }).join(" ");
+  }
+  if (!reduceMotion) $all(".section__head h2, .bundle h2, .custom h2, .area-wrap h2, .cta h2").forEach(splitWords);
+
+  /* ---------- FAQ: buka-tutup dengan tinggi yang halus ---------- */
+  if (!reduceMotion && Element.prototype.animate) {
+    $all(".faq details").forEach(function (d) {
+      var summary = $("summary", d), anim = null;
+      summary.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (anim) anim.cancel();
+        var start = d.offsetHeight;
+        var border = d.offsetHeight - d.clientHeight;
+        if (d.open) {
+          anim = d.animate({ height: [start + "px", (summary.offsetHeight + border) + "px"] }, { duration: 320, easing: "cubic-bezier(.2,.75,.2,1)" });
+          anim.onfinish = function () { d.open = false; anim = null; };
+        } else {
+          d.open = true;
+          anim = d.animate({ height: [start + "px", d.offsetHeight + "px"] }, { duration: 420, easing: "cubic-bezier(.2,.75,.2,1)" });
+          anim.onfinish = function () { anim = null; };
+        }
+        if (anim) anim.oncancel = function () { anim = null; };
+      });
+    });
+  }
+
   /* ---------- Pasang animasi scroll ---------- */
   revealAll(".section__head", 0);
   revealAll(".trustbar .stat, .trustbar .pay", 90);
@@ -706,8 +769,11 @@
   revealAll(".area-wrap > div", 0, "left");
   revealAll(".areas li", 80);
   revealAll(".faq details", 70);
+  revealAll(".compare__row", 80);
+  revealAll(".platforms", 0);
   revealAll(".cta", 0, "zoom");
   revealAll(".footer__grid > div", 90);
+  updateRail();
 
   render();
   window.__venusReady = true;

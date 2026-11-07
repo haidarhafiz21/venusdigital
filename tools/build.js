@@ -183,6 +183,12 @@ ${o.body}
     </div>
   </footer>
 
+${o.extra || ""}
+  <button type="button" class="totop" id="toTop" aria-label="Kembali ke atas">
+    <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="totop__track" cx="24" cy="24" r="21"/><circle class="totop__bar" id="toTopBar" cx="24" cy="24" r="21"/></svg>
+    ${icon("arrow-up")}
+  </button>
+
   <a class="wa-float" href="${generalWa}" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
   </a>
@@ -327,6 +333,11 @@ function productPage(p) {
     description: `${p.desc} Harga ${rupiah(p.price)}. ${compatText(p)}`,
     ogImage: SITE + `assets/img/og/${p.slug}.png`,
     active: "produk",
+    extra: `
+  <div class="buybar" id="buybar" aria-hidden="true">
+    <div class="buybar__info"><b>${esc(p.title)}</b><span>${rupiah(p.price)}</span></div>
+    <a class="btn btn--accent" href="${buy}" target="_blank" rel="noopener">${icon("cart")}Beli</a>
+  </div>`,
     jsonld: [
       {
         "@context": "https://schema.org",
