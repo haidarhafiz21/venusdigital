@@ -15,56 +15,7 @@
   /* ---------- DATA PRODUK (nanti diganti dari backend/database) ----------
      mock: sheet | chart | dash | web | app | bundle  (gaya thumbnail)
      tags: keuangan | bisnis | pendidikan | web | bundle                    */
-  var PRODUCTS = [
-    { id: "pengeluaran", title: "Template Pengeluaran Bulanan", cat: "Keuangan Pribadi", tags: ["keuangan"], format: "Excel & Sheets",
-      price: 35000, old: 59000, rating: 4.9, reviews: 312, badge: "Rekomendasi", mock: "chart", bg: "#e6f1ea", ac: "#1d7a46",
-      desc: "Catat pemasukan & pengeluaran harian, lihat sisa uang dan grafik per kategori secara otomatis.",
-      features: ["12 sheet bulanan + rekap tahunan", "Grafik pengeluaran per kategori", "Target tabungan & sisa anggaran", "Video panduan pemakaian"] },
-    { id: "rumahtangga", title: "Keuangan Rumah Tangga & Tabungan", cat: "Keuangan Pribadi", tags: ["keuangan"], format: "Excel & Sheets",
-      price: 49000, rating: 4.9, reviews: 128, mock: "dash", bg: "#e8eef8", ac: "#2f5fa8",
-      desc: "Anggaran keluarga dengan amplop digital, dana darurat, dan target menabung untuk tujuan tertentu.",
-      features: ["Metode amplop (budgeting)", "Pelacak dana darurat", "Target tabungan bertahap", "Dashboard ringkasan"] },
-    { id: "labarugi", title: "Laporan Keuangan UMKM (Laba Rugi)", cat: "Bisnis & UMKM", tags: ["bisnis"], format: "Excel",
-      price: 79000, old: 99000, rating: 4.8, reviews: 96, mock: "dash", bg: "#fbeee3", ac: "#c95d2a",
-      desc: "Jurnal harian otomatis menjadi laporan laba rugi, arus kas, dan neraca sederhana setiap bulan.",
-      features: ["Jurnal kas masuk & keluar", "Laba rugi bulanan otomatis", "Laporan arus kas", "Siap cetak untuk pengajuan KUR"] },
-    { id: "stok", title: "Stok Barang & Penjualan", cat: "Bisnis & UMKM", tags: ["bisnis"], format: "Excel",
-      price: 69000, rating: 4.8, reviews: 84, mock: "sheet", bg: "#e6f1ea", ac: "#1d7a46",
-      desc: "Kelola barang masuk, keluar, dan sisa stok. Peringatan otomatis saat stok menipis.",
-      features: ["Master data barang", "Barang masuk & keluar", "Peringatan stok minimum", "Laporan penjualan per produk"] },
-    { id: "gaji", title: "Absensi & Gaji Karyawan", cat: "Bisnis & UMKM", tags: ["bisnis"], format: "Excel",
-      price: 59000, rating: 4.7, reviews: 61, mock: "sheet", bg: "#efe8f7", ac: "#6a48a6",
-      desc: "Rekap kehadiran, lembur, potongan, dan slip gaji yang bisa dicetak per karyawan.",
-      features: ["Absensi bulanan", "Hitung lembur & potongan", "Slip gaji siap cetak", "Rekap tahunan"] },
-    { id: "rapor", title: "Rapor & Nilai Kurikulum Merdeka", cat: "Pendidikan", tags: ["pendidikan"], format: "Excel",
-      price: 45000, rating: 4.9, reviews: 143, badge: "Baru", mock: "sheet", bg: "#e8eef8", ac: "#2f5fa8",
-      desc: "Input nilai sekali, rapor dan deskripsi capaian terisi otomatis. Untuk SD, SMP, dan MTs.",
-      features: ["Deskripsi capaian otomatis", "Rapor siap cetak", "Rekap nilai per kelas", "Leger nilai"] },
-    { id: "absensi-sekolah", title: "Absensi Siswa & Jurnal Guru", cat: "Pendidikan", tags: ["pendidikan"], format: "Excel & Sheets",
-      price: 29000, rating: 4.8, reviews: 52, mock: "chart", bg: "#f3efe6", ac: "#8a6a2b",
-      desc: "Absensi harian siswa dengan rekap persentase kehadiran dan jurnal mengajar guru.",
-      features: ["Absensi harian & bulanan", "Persentase kehadiran otomatis", "Jurnal mengajar", "Bisa dipakai di HP"] },
-    { id: "hutang", title: "Hutang Piutang & Cicilan", cat: "Keuangan Pribadi", tags: ["keuangan", "bisnis"], format: "Excel & Sheets",
-      price: 29000, rating: 4.7, reviews: 77, mock: "sheet", bg: "#fbeee3", ac: "#c95d2a",
-      desc: "Pantau siapa berhutang, jatuh tempo, dan sisa cicilan. Cocok untuk pribadi maupun toko.",
-      features: ["Daftar hutang & piutang", "Pengingat jatuh tempo", "Riwayat pembayaran", "Ringkasan per orang"] },
-    { id: "nikah", title: "Perencana Anggaran Pernikahan", cat: "Keuangan Pribadi", tags: ["keuangan"], format: "Excel & Sheets",
-      price: 39000, rating: 5.0, reviews: 38, mock: "chart", bg: "#f6e8ea", ac: "#a34a5a",
-      desc: "Rencanakan biaya pernikahan, daftar vendor, tamu undangan, dan tabungan menuju hari H.",
-      features: ["Rincian anggaran per pos", "Daftar vendor & pembayaran", "Daftar tamu", "Hitung mundur & target tabungan"] },
-    { id: "web-toko", title: "Template Website Toko Online", cat: "Website & Aplikasi", tags: ["web"], format: "Source code",
-      price: 249000, old: 399000, rating: 4.8, reviews: 29, mock: "web", bg: "#e6f1ea", ac: "#0f3d33",
-      desc: "Website katalog toko dengan keranjang dan checkout ke WhatsApp. Responsif dan mudah diedit.",
-      features: ["HTML, CSS, JS (tanpa biaya bulanan)", "Checkout ke WhatsApp", "Panduan upload ke hosting", "Gratis 1x bantuan instalasi"] },
-    { id: "app-kasir", title: "Aplikasi Kasir (Lisensi)", cat: "Website & Aplikasi", tags: ["web", "bisnis"], format: "Android & Web",
-      price: 499000, rating: 4.9, reviews: 34, mock: "app", bg: "#fbeee3", ac: "#c95d2a",
-      desc: "Aplikasi kasir untuk toko dan warung: transaksi, stok, laporan, dan cetak struk Bluetooth.",
-      features: ["Lisensi 1 toko seumur hidup", "Cetak struk Bluetooth", "Laporan harian & bulanan", "Bisa offline"] },
-    { id: "bundle20", title: "Bundle 20 Template Excel Bisnis", cat: "Paket Bundle", tags: ["bundle", "bisnis"], format: "Excel",
-      price: 149000, old: 499000, rating: 4.9, reviews: 118, badge: "Hemat 70%", mock: "bundle", bg: "#e6f1ea", ac: "#0f3d33",
-      desc: "Paket lengkap 20 template untuk menjalankan usaha: keuangan, stok, kasir, gaji, invoice, dan lainnya.",
-      features: ["20 template Excel siap pakai", "Laporan keuangan, stok, kasir, gaji", "Invoice & kuitansi otomatis", "Update gratis selamanya"] }
-  ];
+  var PRODUCTS = window.VENUS.products; // data ada di assets/js/products.js
 
   var FILTER_LABEL = { all: "Semua", keuangan: "Keuangan", bisnis: "Bisnis & UMKM", pendidikan: "Pendidikan", web: "Website & Aplikasi", bundle: "Paket Bundle" };
 
@@ -170,36 +121,7 @@
   }
 
   /* ---------- Thumbnail produk (CSS, tidak ada gambar yang bisa rusak) ---------- */
-  function rep(str, n) { var out = ""; for (var i = 0; i < n; i++) out += str; return out; }
-  function mockHTML(p) {
-    var style = 'style="--bg-c:' + p.bg + ';--ac:' + p.ac + '"';
-    var bar = '<div class="mbar"><i></i><i></i><i></i></div>';
-    var inner = "";
-    switch (p.mock) {
-      case "sheet":
-        inner = '<div class="mwin">' + bar + '<div class="mbody">' + rep('<i class="b h"></i>', 3) +
-          rep('<i class="b"></i><i class="b a2"></i><i class="b"></i>', 6) + "</div></div>";
-        break;
-      case "chart":
-        inner = '<div class="mwin">' + bar + '<div class="mbody"><div class="rows"><i class="b a"></i>' + rep('<i class="b"></i>', 6) +
-          '</div><div class="bars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:85%"></i><i style="height:55%"></i></div></div></div>';
-        break;
-      case "dash":
-        inner = '<div class="mwin">' + bar + '<div class="mbody"><i class="k"></i><i class="k"></i><i class="k"></i><i class="big"></i></div></div>';
-        break;
-      case "web":
-        inner = '<div class="mwin">' + bar + '<div class="mbody"><i class="b h"></i><i class="b"></i><i class="b o"></i><i class="b"></i></div></div>';
-        break;
-      case "app":
-        var ph = '<div class="ph"><div><i class="b a"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b o"></i></div></div>';
-        inner = ph + ph;
-        break;
-      case "bundle":
-        inner = '<div class="stack"><i></i><i></i><i>20</i></div>';
-        break;
-    }
-    return '<div class="mock mock--' + p.mock + '" ' + style + ">" + inner + "</div>";
-  }
+  var mockHTML = window.VENUS.mockHTML;
   function productIcon(p) {
     return p.mock === "web" || p.mock === "app" ? "code" : p.mock === "bundle" ? "package" : "sheet";
   }
@@ -227,7 +149,7 @@
           '<span class="product__format">' + esc(p.format) + "</span>" + mockHTML(p) + "</button>" +
         '<div class="product__body">' +
           '<span class="product__cat">' + esc(p.cat) + "</span>" +
-          '<h3 class="product__title"><button data-open="' + p.id + '">' + esc(p.title) + "</button></h3>" +
+          '<h3 class="product__title"><a href="produk/' + p.slug + '/">' + esc(p.title) + "</a></h3>" +
           '<p class="product__desc">' + esc(p.desc) + "</p>" +
           (CONFIG.showRatings ? '<div class="product__rating">' + icon("star") + p.rating.toFixed(1).replace(".", ",") + " <span>(" + p.reviews + " ulasan)</span></div>" : "") +
           '<div class="product__foot">' +
@@ -330,6 +252,7 @@
     $("#modalPrice").textContent = rupiah(p.price);
     $("#modalOld").textContent = p.old ? rupiah(p.old) : "";
     $("#modalBuy").href = waLink(buyText(p));
+    $("#modalPage").href = "produk/" + p.slug + "/";
     lastFocus = returnTo || document.activeElement;
     modal.hidden = false;
     $(".modal__box", modal).scrollTop = 0;

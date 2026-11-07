@@ -148,6 +148,7 @@
             </li>
             <li><a href="#cara-beli" class="nav__link" data-target="cara-beli">Cara Beli</a></li>
             <li><a href="#custom" class="nav__link" data-target="custom">Request Custom</a></li>
+            <li><a href="artikel/" class="nav__link">Artikel</a></li>
             <li><a href="#faq" class="nav__link" data-target="faq">FAQ</a></li>
           </ul>
           <span class="nav__indicator" id="navIndicator" aria-hidden="true"></span>
@@ -187,7 +188,8 @@
       </details>
       <a href="#cara-beli" style="--i:2">Cara Beli</a>
       <a href="#custom" style="--i:3">Request Custom</a>
-      <a href="#faq" style="--i:4">FAQ</a>
+      <a href="artikel/" style="--i:4">Artikel</a>
+      <a href="#faq" style="--i:5">FAQ</a>
     </nav>
     <div class="drawer__foot">
       <a href="#kontak" class="btn btn--primary btn--block">Hubungi Kami</a>
@@ -476,7 +478,7 @@
         <div>
           <p class="eyebrow">Berbasis di Madura</p>
           <h2>Toko template Excel & produk digital dari Madura</h2>
-          <p class="section__sub">Venus Digital berbasis di Pamekasan dan melayani pembeli dari Bangkalan, Sampang, Pamekasan, Sumenep, hingga seluruh Indonesia. Karena produknya digital, file bisa diterima di mana saja — dan untuk pembeli di Madura, bantuan tatap muka juga tersedia.</p>
+          <p class="section__sub">Venus Digital berbasis di Pamekasan dan melayani pembeli dari Bangkalan, Sampang, Pamekasan, Sumenep, hingga seluruh Indonesia. Karena produknya digital, file bisa diterima di mana saja, dan bantuan pemakaian diberikan lewat WhatsApp.</p>
         </div>
         <ul class="areas">
           <li><svg class="i"><use href="#i-pin"/></svg><b>Bangkalan</b></li>
@@ -544,11 +546,15 @@
       </div>
       <div>
         <h4>Produk</h4>
-        <a href="#produk">Template Keuangan Pribadi</a><a href="#produk">Template Bisnis & UMKM</a><a href="#produk">Template Pendidikan</a><a href="#produk">Website & Aplikasi</a>
+        <a href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
+        <a href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
+        <a href="produk/template-excel-stok-barang-penjualan/">Stok Barang & Penjualan</a>
+        <a href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
+        <a href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
       </div>
       <div>
         <h4>Bantuan</h4>
-        <a href="#cara-beli">Cara Beli</a><a href="#faq">FAQ</a><a href="#custom">Request Custom</a><a href="#faq">Garansi & Refund</a>
+        <a href="#cara-beli">Cara Beli</a><a href="artikel/">Artikel & Tips</a><a href="#custom">Request Custom</a><a href="kebijakan-refund/">Garansi & Refund</a><a href="#faq">FAQ</a>
       </div>
       <div>
         <h4>Kontak</h4>
@@ -559,7 +565,7 @@
     </div>
     <div class="container footer__bottom">
       <span>© <span id="year">2026</span> Venus Digital. Semua hak dilindungi.</span>
-      <span>Kebijakan Privasi · Syarat & Ketentuan</span>
+      <span class="footer__legal"><a href="kebijakan-privasi/">Kebijakan Privasi</a><a href="syarat-ketentuan/">Syarat & Ketentuan</a><a href="kebijakan-refund/">Kebijakan Refund</a></span>
     </div>
   </footer>
 
@@ -580,6 +586,7 @@
         <p class="modal__label">Yang Anda dapatkan</p>
         <ul class="modal__features" id="modalFeatures"></ul>
         <p class="modal__compat" id="modalCompat"></p>
+        <a class="modal__more" id="modalPage" href="#">Lihat detail lengkap <svg class="i"><use href="#i-arrow"/></svg></a>
         <div class="modal__foot">
           <div class="price"><small>Harga</small><strong id="modalPrice"></strong><del id="modalOld"></del></div>
           <a class="btn btn--accent" id="modalBuy" href="#" target="_blank" rel="noopener"><svg class="i"><use href="#i-cart"/></svg>Beli Sekarang</a>
@@ -605,6 +612,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__ring"></span></div>
 
+  <script src="assets/js/products.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
