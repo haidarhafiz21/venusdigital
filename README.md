@@ -49,3 +49,5 @@ node tools/build.js
 ---
 
 <p align="center">Dibuat oleh <a href="https://github.com/haidarhafiz21">A. Haidar Hafiz</a></p>
+
+<p align="center"><sub>Hak cipta © 2026 A. Haidar Hafiz. Seluruh hak dilindungi — lihat <a href="LICENSE">LICENSE</a>.</sub></p>
