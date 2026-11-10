@@ -164,28 +164,28 @@
     return { src: "assets/img/produk/" + name + ".webp", small: "assets/img/produk/" + name + "-900.webp", w: w, h: h, caption: caption, alt: alt };
   }
   var SHOTS = {
-    pengeluaran: [shot("pengeluaran-1", 1600, 1021, "Lembar bulan: catatan harian di kiri, ringkasan & pemakaian anggaran per kategori di kanan.", "Lembar Januari berisi catatan pemasukan dan pengeluaran harian, ringkasan sisa uang, dan grafik anggaran per kategori"),
-                  shot("pengeluaran-2", 1600, 895, "Rekap tahunan: semua bulan dibandingkan, lengkap dengan grafik.", "Rekap tahunan pemasukan, pengeluaran per kategori, grafik batang dan grafik donat")],
-    rumahtangga: [shot("rumahtangga-2", 1600, 499, "Amplop anggaran: sisa setiap pos dan statusnya untuk bulan yang dipilih.", "Tabel amplop anggaran berisi batas, terpakai, sisa, dan status tiap pos, beserta grafik")],
-    labarugi: [shot("labarugi-1", 1600, 526, "Laporan laba rugi bulanan & sejak Januari, plus tren per bulan.", "Laporan laba rugi dengan pendapatan, HPP, beban, laba bersih, dan grafik per bulan"),
-               shot("labarugi-2", 1600, 689, "Arus kas: kas masuk, kas keluar, dan saldo akhir tiap bulan.", "Tabel arus kas per bulan dan grafik kas masuk, kas keluar, serta saldo")],
-    stok: [shot("stok-1", 1558, 502, "Master barang: sisa stok dan status Aman / Menipis / Habis otomatis.", "Daftar barang dengan stok masuk, keluar, sisa, status, dan nilai stok"),
-           shot("stok-2", 1280, 952, "Laporan penjualan: omzet & laba per bulan serta barang terlaris.", "Laporan omzet dan laba kotor per bulan, lima barang terlaris, dan grafik")],
-    gaji: [shot("gaji-1", 1315, 320, "Penggajian: hadir, alpa, lembur, potongan, sampai gaji bersih.", "Tabel penggajian karyawan berisi kehadiran, lembur, potongan, dan gaji bersih"),
-           shot("gaji-2", 883, 701, "Slip gaji siap cetak, cukup pilih ID karyawan.", "Slip gaji karyawan berisi rincian pendapatan, potongan, dan gaji bersih")],
-    rapor: [shot("rapor-1", 1018, 1353, "Rapor siap cetak dengan deskripsi capaian kompetensi otomatis.", "Rapor siswa berisi nilai akhir dan deskripsi capaian kompetensi setiap mata pelajaran"),
-            shot("rapor-2", 1270, 479, "Leger nilai: nilai akhir semua mapel, rata-rata, dan peringkat.", "Leger nilai kelas berisi nilai tiap mapel, jumlah, rata-rata, dan peringkat")],
-    "absensi-sekolah": [shot("absensi-sekolah-1", 1475, 447, "Absensi harian dengan persentase kehadiran otomatis.", "Absensi siswa bulan Juli dengan kode hadir, sakit, izin, alpa, dan persentase kehadiran"),
-                        shot("absensi-sekolah-2", 1576, 289, "Jurnal mengajar untuk setiap pertemuan.", "Jurnal mengajar berisi tanggal, hari, mapel, materi, dan kegiatan pembelajaran")],
-    hutang: [shot("hutang-1", 1531, 405, "Daftar hutang & piutang dengan status jatuh tempo otomatis.", "Daftar hutang dan piutang berisi jumlah, terbayar, sisa, status, dan sisa hari"),
-             shot("hutang-2", 1600, 279, "Cicilan bulanan: sisa tenor dan jatuh tempo berikutnya.", "Tabel cicilan berisi cicilan per bulan, tenor, sisa, dan tanggal jatuh tempo berikutnya")],
+    pengeluaran: [shot("pengeluaran-1", 1600, 1122, "Lembar bulan: catatan harian di kiri, ringkasan & pemakaian anggaran per kategori di kanan.", "Lembar Januari berisi catatan pemasukan dan pengeluaran harian, ringkasan sisa uang, dan grafik anggaran per kategori"),
+                  shot("pengeluaran-2", 1600, 1133, "Rekap tahunan: semua bulan dibandingkan, lengkap dengan grafik.", "Rekap tahunan pemasukan, pengeluaran per kategori, grafik batang dan grafik donat")],
+    rumahtangga: [shot("rumahtangga-2", 1600, 553, "Amplop anggaran: sisa setiap pos dan statusnya untuk bulan yang dipilih.", "Tabel amplop anggaran berisi batas, terpakai, sisa, dan status tiap pos, beserta grafik")],
+    labarugi: [shot("labarugi-1", 1600, 661, "Laporan laba rugi bulanan & sejak Januari, plus tren per bulan.", "Laporan laba rugi dengan pendapatan, HPP, beban, laba bersih, dan grafik per bulan"),
+               shot("labarugi-2", 1600, 902, "Arus kas: kas masuk, kas keluar, dan saldo akhir tiap bulan.", "Tabel arus kas per bulan dan grafik kas masuk, kas keluar, serta saldo")],
+    stok: [shot("stok-1", 1558, 547, "Master barang: sisa stok dan status Aman / Menipis / Habis otomatis.", "Daftar barang dengan stok masuk, keluar, sisa, status, dan nilai stok"),
+           shot("stok-2", 1280, 1057, "Laporan penjualan: omzet & laba per bulan serta barang terlaris.", "Laporan omzet dan laba kotor per bulan, lima barang terlaris, dan grafik")],
+    gaji: [shot("gaji-1", 1315, 348, "Penggajian: hadir, alpa, lembur, potongan, sampai gaji bersih.", "Tabel penggajian karyawan berisi kehadiran, lembur, potongan, dan gaji bersih"),
+           shot("gaji-2", 883, 774, "Slip gaji siap cetak, cukup pilih ID karyawan.", "Slip gaji karyawan berisi rincian pendapatan, potongan, dan gaji bersih")],
+    rapor: [shot("rapor-1", 1018, 1428, "Rapor siap cetak dengan deskripsi capaian kompetensi otomatis.", "Rapor siswa berisi nilai akhir dan deskripsi capaian kompetensi setiap mata pelajaran"),
+            shot("rapor-2", 1270, 530, "Leger nilai: nilai akhir semua mapel, rata-rata, dan peringkat.", "Leger nilai kelas berisi nilai tiap mapel, jumlah, rata-rata, dan peringkat")],
+    "absensi-sekolah": [shot("absensi-sekolah-1", 1475, 494, "Absensi harian dengan persentase kehadiran otomatis.", "Absensi siswa bulan Juli dengan kode hadir, sakit, izin, alpa, dan persentase kehadiran"),
+                        shot("absensi-sekolah-2", 1576, 326, "Jurnal mengajar untuk setiap pertemuan.", "Jurnal mengajar berisi tanggal, hari, mapel, materi, dan kegiatan pembelajaran")],
+    hutang: [shot("hutang-1", 1531, 453, "Daftar hutang & piutang dengan status jatuh tempo otomatis.", "Daftar hutang dan piutang berisi jumlah, terbayar, sisa, status, dan sisa hari"),
+             shot("hutang-2", 1600, 306, "Cicilan bulanan: sisa tenor dan jatuh tempo berikutnya.", "Tabel cicilan berisi cicilan per bulan, tenor, sisa, dan tanggal jatuh tempo berikutnya")],
     "web-toko": [shot("web-toko-1", 1366, 1606, "Halaman toko: katalog, filter kategori, pencarian, dan tombol tambah ke keranjang.", "Tampilan halaman utama template website toko online berisi katalog produk"),
                  shot("web-toko-2", 780, 1688, "Keranjang di HP: ubah jumlah, isi data, lalu pesan langsung via WhatsApp.", "Tampilan keranjang belanja di HP dengan formulir checkout ke WhatsApp")],
-    bundle20: [shot("bundle-invoice", 964, 836, "Invoice siap cetak: pilih pelanggan & produk, total dan terbilang otomatis.", "Invoice penjualan berisi daftar barang, total, dan terbilang otomatis"),
-               shot("bundle-pesanan", 1600, 832, "Rekap pesanan online: omzet & pendapatan bersih per channel dan per bulan.", "Dashboard rekap pesanan online per channel marketplace dengan grafik omzet bulanan"),
-               shot("bundle-kuitansi", 847, 571, "Kuitansi pembayaran dengan terbilang otomatis.", "Kuitansi pembayaran berisi nama pembayar, jumlah uang, dan terbilang")],
-    nikah: [shot("nikah-1", 901, 434, "Ringkasan: hitung mundur, kebutuhan dana, dan target tabungan per bulan.", "Ringkasan anggaran pernikahan berisi hitung mundur, dana, dan data tamu"),
-            shot("nikah-2", 1600, 893, "Anggaran per pos dibandingkan kontrak & pembayaran vendor.", "Tabel anggaran per pos pernikahan beserta grafik anggaran dan porsi biaya")]
+    bundle20: [shot("bundle-invoice", 964, 912, "Invoice siap cetak: pilih pelanggan & produk, total dan terbilang otomatis.", "Invoice penjualan berisi daftar barang, total, dan terbilang otomatis"),
+               shot("bundle-pesanan", 1600, 1020, "Rekap pesanan online: omzet & pendapatan bersih per channel dan per bulan.", "Dashboard rekap pesanan online per channel marketplace dengan grafik omzet bulanan"),
+               shot("bundle-kuitansi", 847, 612, "Kuitansi pembayaran dengan terbilang otomatis.", "Kuitansi pembayaran berisi nama pembayar, jumlah uang, dan terbilang")],
+    nikah: [shot("nikah-1", 901, 487, "Ringkasan: hitung mundur, kebutuhan dana, dan target tabungan per bulan.", "Ringkasan anggaran pernikahan berisi hitung mundur, dana, dan data tamu"),
+            shot("nikah-2", 1600, 1162, "Anggaran per pos dibandingkan kontrak & pembayaran vendor.", "Tabel anggaran per pos pernikahan beserta grafik anggaran dan porsi biaya")]
   };
   products.forEach(function (p) {
     if (SHOTS[p.id]) p.shots = (p.shots || []).concat(SHOTS[p.id]);
