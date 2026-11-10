@@ -105,11 +105,11 @@
 
     { id: "bundle20", slug: "bundle-20-template-excel-bisnis", title: "Bundle 20 Template Excel Bisnis", cat: "Paket Bundle", tags: ["bundle", "bisnis"], format: "Excel",
       price: 149000, old: 499000, rating: 4.9, reviews: 118, badge: "Hemat 70%", mock: "bundle", bg: "#e6f1ea", ac: "#0f3d33",
-      desc: "Paket lengkap 20 template untuk menjalankan usaha: keuangan, stok, kasir, gaji, invoice, dan lainnya.",
-      long: ["Paket berisi 20 template Excel untuk menjalankan usaha sehari-hari: laporan keuangan, stok barang, kasir sederhana, gaji karyawan, invoice, kuitansi, hutang-piutang, dan lainnya.",
-             "Jauh lebih hemat dibanding membeli satuan, dan setiap pembaruan template diberikan gratis."],
+      desc: "20 template Excel untuk usaha: keuangan, stok, kasir, gaji, invoice, kuitansi, pesanan online, dan lainnya.",
+      long: ["Paket berisi 20 file Excel: 9 template yang juga dijual satuan (Pengeluaran Bulanan, Keuangan Rumah Tangga, Laporan Keuangan UMKM, Stok Barang & Penjualan, Absensi & Gaji Karyawan, Rapor Kurikulum Merdeka, Absensi Siswa & Jurnal Guru, Hutang Piutang & Cicilan, Anggaran Pernikahan) ditambah 11 template khusus bundle.",
+             "Template khusus bundle: Invoice Penjualan, Kuitansi Pembayaran, Kasir Sederhana, Buku Kas Kecil, Kalkulator HPP & Harga Jual, Purchase Order, Data Pelanggan & Riwayat Belanja, Target & Pencapaian Penjualan, Inventaris & Penyusutan Aset, Jadwal Shift Karyawan, dan Rekap Pesanan Online. Invoice, kuitansi, dan purchase order dilengkapi terbilang otomatis."],
       audience: ["UMKM yang butuh banyak template sekaligus", "Admin usaha dan bagian keuangan", "Pelaku usaha yang baru merapikan administrasi"],
-      features: ["20 template Excel siap pakai", "Laporan keuangan, stok, kasir, gaji", "Invoice & kuitansi otomatis", "Update gratis selamanya"] }
+      features: ["20 file Excel (9 satuan + 11 khusus bundle)", "Invoice, kuitansi & PO dengan terbilang otomatis", "Kasir, stok, kas kecil & pesanan online", "Update gratis selamanya"] }
   ];
 
   /* Gambar produk dari CSS (tidak ada file gambar yang bisa rusak) */
@@ -178,6 +178,9 @@
                         shot("absensi-sekolah-2", 1576, 289, "Jurnal mengajar untuk setiap pertemuan.", "Jurnal mengajar berisi tanggal, hari, mapel, materi, dan kegiatan pembelajaran")],
     hutang: [shot("hutang-1", 1531, 405, "Daftar hutang & piutang dengan status jatuh tempo otomatis.", "Daftar hutang dan piutang berisi jumlah, terbayar, sisa, status, dan sisa hari"),
              shot("hutang-2", 1600, 279, "Cicilan bulanan: sisa tenor dan jatuh tempo berikutnya.", "Tabel cicilan berisi cicilan per bulan, tenor, sisa, dan tanggal jatuh tempo berikutnya")],
+    bundle20: [shot("bundle-invoice", 964, 836, "Invoice siap cetak: pilih pelanggan & produk, total dan terbilang otomatis.", "Invoice penjualan berisi daftar barang, total, dan terbilang otomatis"),
+               shot("bundle-pesanan", 1600, 832, "Rekap pesanan online: omzet & pendapatan bersih per channel dan per bulan.", "Dashboard rekap pesanan online per channel marketplace dengan grafik omzet bulanan"),
+               shot("bundle-kuitansi", 847, 571, "Kuitansi pembayaran dengan terbilang otomatis.", "Kuitansi pembayaran berisi nama pembayar, jumlah uang, dan terbilang")],
     nikah: [shot("nikah-1", 901, 434, "Ringkasan: hitung mundur, kebutuhan dana, dan target tabungan per bulan.", "Ringkasan anggaran pernikahan berisi hitung mundur, dana, dan data tamu"),
             shot("nikah-2", 1600, 893, "Anggaran per pos dibandingkan kontrak & pembayaran vendor.", "Tabel anggaran per pos pernikahan beserta grafik anggaran dan porsi biaya")]
   };
