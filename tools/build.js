@@ -231,7 +231,7 @@ function articleCard(a, r, i, Tag) {
 function shotsSection(p, r) {
   if (!p.shots || !p.shots.length) return "";
   const figs = p.shots.map((s) => `
-          <figure class="shot" data-reveal="0">
+          <figure class="shot" data-reveal="0" style="max-width:${Math.round(s.w / 1.4)}px">
             <a href="${r}${s.src}" target="_blank" rel="noopener" aria-label="Buka gambar ukuran penuh">
               <img src="${r}${s.small || s.src}" srcset="${r}${s.small || s.src} 900w, ${r}${s.src} ${s.w}w" sizes="(max-width: 1200px) 100vw, 1160px"
                    width="${s.w}" height="${s.h}" alt="${esc(s.alt)}" loading="lazy" decoding="async">
@@ -241,7 +241,9 @@ function shotsSection(p, r) {
   return `
     <section class="section section--tight shots">
       <div class="container">
-        <div class="section__head" data-reveal="0"><div><p class="eyebrow">Tampilan asli</p><h2>Seperti ini isi template-nya</h2></div></div>${figs}
+        <div class="section__head" data-reveal="0"><div><p class="eyebrow">Tampilan asli</p><h2>Seperti ini isi template-nya</h2></div><p class="shots__note">Gambar diambil langsung dari file produk. Angka di dalamnya adalah data contoh.</p></div>
+        <div class="shots__grid">${figs}
+        </div>
       </div>
     </section>
 `;
@@ -364,7 +366,7 @@ ${shotsSection(p, r)}
         "@type": "Product",
         name,
         description: [p.desc].concat(p.long).join(" "),
-        image: [SITE + `assets/img/og/${p.slug}.png`],
+        image: [SITE + `assets/img/og/${p.slug}.png`].concat((p.shots || []).map((x) => SITE + x.src)),
         sku: p.id,
         category: p.cat,
         brand: { "@type": "Brand", name: BRAND },

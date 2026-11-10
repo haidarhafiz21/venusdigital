@@ -953,7 +953,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
    TAMPILAN ASLI PRODUK (tangkapan layar template)
    ========================================================= */
 .shots .section__head { margin-bottom: 20px; }
-.shot { margin: 0; }
+.shot { margin: 0 auto; width: 100%; }
 .shot a { display: block; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff;
   box-shadow: 0 18px 40px -28px rgba(15, 61, 51, .45); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
 .shot a:hover { transform: translateY(-3px); box-shadow: 0 26px 50px -30px rgba(15, 61, 51, .55); }
@@ -980,3 +980,5 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .product__card:hover .peek, .pd__media:hover .peek { transform: rotate(0deg) translate(-6px, -4px); }
 .pd__media .peek, .modal__thumb .peek { left: 7%; top: 10%; }
 @media (prefers-reduced-motion: reduce) { .peek { transition: none; } }
+.shots__note { margin: 0; max-width: 360px; font-size: .88rem; color: var(--muted); }
+.shots__grid { display: grid; gap: 34px; }
