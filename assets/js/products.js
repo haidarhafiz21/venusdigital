@@ -114,8 +114,22 @@
 
   /* Gambar produk dari CSS (tidak ada file gambar yang bisa rusak) */
   function rep(str, n) { var out = ""; for (var i = 0; i < n; i++) out += str; return out; }
-  function mockHTML(p) {
+  // Potongan asli dari file Excel produk ("bocoran" isi template) untuk kartu & gambar produk
+  var PEEK = {
+    pengeluaran: ["pengeluaran", "Pengeluaran Bulanan.xlsx"], rumahtangga: ["rumahtangga", "Keuangan Rumah Tangga.xlsx"],
+    labarugi: ["labarugi", "Laporan Laba Rugi UMKM.xlsx"], stok: ["stok", "Stok Barang & Penjualan.xlsx"],
+    gaji: ["gaji", "Absensi & Gaji Karyawan.xlsx"], rapor: ["rapor", "Rapor Kurikulum Merdeka.xlsx"],
+    "absensi-sekolah": ["absensi-sekolah", "Absensi Siswa.xlsx"], hutang: ["hutang", "Hutang Piutang & Cicilan.xlsx"],
+    nikah: ["nikah", "Anggaran Pernikahan.xlsx"]
+  };
+
+  function mockHTML(p, root) {
     var style = 'style="--bg-c:' + p.bg + ';--ac:' + p.ac + '"';
+    var pk = PEEK[p.id];
+    if (pk) {
+      return '<div class="mock mock--peek" ' + style + '><div class="peek"><div class="peek__bar"><i></i><i></i><i></i><span>' + pk[1] +
+        '</span></div><img src="' + (root || "") + "assets/img/peek/" + pk[0] + '.webp" alt="" loading="lazy" decoding="async"></div></div>';
+    }
     var bar = '<div class="mbar"><i></i><i></i><i></i></div>';
     var inner = "";
     switch (p.mock) {

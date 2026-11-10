@@ -961,3 +961,22 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .shot figcaption { margin-top: 12px; font-size: .9rem; color: var(--body); }
 .shot figcaption span { color: var(--muted); }
 @media (max-width: 560px) { .shot a { border-radius: 10px; } .shot figcaption span { display: block; } }
+
+/* =========================================================
+   BOCORAN ISI EXCEL (gambar asli di hero & kartu produk)
+   ========================================================= */
+.sheet-win__shot { line-height: 0; background: #fff; }
+.sheet-win__shot img { display: block; width: 100%; height: auto; }
+
+.mock--peek { padding: 0; }
+.peek { position: absolute; left: 9%; top: 12%; width: 100%; height: 100%; background: #fff; border-radius: 10px 0 0 0;
+  border: 1px solid rgba(0, 0, 0, .07); box-shadow: 0 16px 34px -16px rgba(15, 40, 30, .45); overflow: hidden;
+  transform: rotate(-2.5deg); transform-origin: 0 0; transition: transform .6s var(--ease); }
+.peek__bar { height: 22px; display: flex; align-items: center; gap: 4px; padding: 0 10px; background: #f3f5f3;
+  border-bottom: 1px solid var(--line); font-size: .62rem; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.peek__bar i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #d6dbd7; }
+.peek__bar span { margin-left: 6px; overflow: hidden; text-overflow: ellipsis; }
+.peek img { display: block; width: min(150%, 760px); max-width: none; height: auto; }
+.product__card:hover .peek, .pd__media:hover .peek { transform: rotate(0deg) translate(-6px, -4px); }
+.pd__media .peek, .modal__thumb .peek { left: 7%; top: 10%; }
+@media (prefers-reduced-motion: reduce) { .peek { transition: none; } }

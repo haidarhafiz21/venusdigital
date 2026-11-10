@@ -204,7 +204,7 @@ function productCard(q, r, i) {
   const href = `${r}produk/${q.slug}/`;
   const badge = q.badge ? `<span class="product__badge${q.badge.indexOf("Hemat") === 0 ? "" : " product__badge--soft"}">${esc(q.badge)}</span>` : "";
   return `<article class="product" data-reveal="${i % 3}"><div class="product__card">
-          <a class="product__thumb" href="${href}" aria-label="Lihat ${esc(q.title)}">${badge}<span class="product__format">${esc(q.format)}</span>${mockHTML(q)}</a>
+          <a class="product__thumb" href="${href}" aria-label="Lihat ${esc(q.title)}">${badge}<span class="product__format">${esc(q.format)}</span>${mockHTML(q, r)}</a>
           <div class="product__body">
             <span class="product__cat">${esc(q.cat)}</span>
             <h3 class="product__title"><a href="${href}">${esc(q.title)}</a></h3>
@@ -266,7 +266,7 @@ function productPage(p) {
       <div class="container">
         <ol class="crumbs"><li><a href="${r}">Beranda</a></li><li><a href="${r}#produk">Produk</a></li><li aria-current="page">${esc(p.title)}</li></ol>
         <div class="pd">
-          <div class="pd__media" data-reveal="0">${badge}<span class="product__format">${esc(p.format)}</span>${mockHTML(p)}</div>
+          <div class="pd__media" data-reveal="0">${badge}<span class="product__format">${esc(p.format)}</span>${mockHTML(p, r)}</div>
           <div class="pd__info" data-reveal="1">
             <span class="chip">${esc(p.cat)}</span>
             <h1>${esc(name)}</h1>
