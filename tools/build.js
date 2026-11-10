@@ -227,6 +227,26 @@ function articleCard(a, r, i, Tag) {
         </a>`;
 }
 
+/* ---------- Tangkapan layar asli produk (bila ada) ---------- */
+function shotsSection(p, r) {
+  if (!p.shots || !p.shots.length) return "";
+  const figs = p.shots.map((s) => `
+          <figure class="shot" data-reveal="0">
+            <a href="${r}${s.src}" target="_blank" rel="noopener" aria-label="Buka gambar ukuran penuh">
+              <img src="${r}${s.small || s.src}" srcset="${r}${s.small || s.src} 900w, ${r}${s.src} ${s.w}w" sizes="(max-width: 1200px) 100vw, 1160px"
+                   width="${s.w}" height="${s.h}" alt="${esc(s.alt)}" loading="lazy" decoding="async">
+            </a>
+            <figcaption>${esc(s.caption)} <span>Klik gambar untuk memperbesar.</span></figcaption>
+          </figure>`).join("");
+  return `
+    <section class="section section--tight shots">
+      <div class="container">
+        <div class="section__head" data-reveal="0"><div><p class="eyebrow">Tampilan asli</p><h2>Seperti ini isi template-nya</h2></div></div>${figs}
+      </div>
+    </section>
+`;
+}
+
 /* ---------- Halaman produk ---------- */
 function productPage(p) {
   const pagePath = `produk/${p.slug}/`;
@@ -265,7 +285,7 @@ function productPage(p) {
         </div>
       </div>
     </section>
-
+${shotsSection(p, r)}
     <section class="section">
       <div class="container content-grid">
         <div>

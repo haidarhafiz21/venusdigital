@@ -26,7 +26,10 @@
       long: ["Mengatur keuangan keluarga lebih mudah dengan metode amplop: setiap pos anggaran seperti belanja dapur, listrik, sekolah anak, dan cicilan punya batasnya sendiri, dan template menunjukkan sisa tiap pos secara otomatis.",
              "Dilengkapi pelacak dana darurat dan target tabungan bertahap, misalnya untuk biaya sekolah, mudik, atau membeli kendaraan."],
       audience: ["Ibu rumah tangga yang mengelola uang belanja", "Keluarga yang ingin mulai punya dana darurat", "Siapa pun yang ingin menerapkan metode 50/30/20"],
-      features: ["Metode amplop (budgeting)", "Pelacak dana darurat", "Target tabungan bertahap", "Dashboard ringkasan"] },
+      features: ["Metode amplop (budgeting)", "Pelacak dana darurat", "Target tabungan bertahap", "Dashboard ringkasan"],
+      shots: [{ src: "assets/img/produk/keuangan-rumah-tangga-dashboard.webp", small: "assets/img/produk/keuangan-rumah-tangga-dashboard-900.webp",
+                w: 1562, h: 768, alt: "Tampilan dashboard tahunan template Keuangan Rumah Tangga: tabel pendapatan, pengeluaran dan tabungan per bulan, grafik batang, dan grafik donat komposisi",
+                caption: "Dashboard tahunan: pendapatan, pengeluaran & tabungan per bulan, lengkap dengan grafik." }] },
 
     { id: "labarugi", slug: "template-excel-laporan-laba-rugi-umkm", title: "Laporan Keuangan UMKM (Laba Rugi)", cat: "Bisnis & UMKM", tags: ["bisnis"], format: "Excel",
       price: 79000, old: 99000, rating: 4.8, reviews: 96, mock: "dash", bg: "#fbeee3", ac: "#c95d2a",
