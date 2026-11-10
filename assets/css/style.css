@@ -982,3 +982,5 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 @media (prefers-reduced-motion: reduce) { .peek { transition: none; } }
 .shots__note { margin: 0; max-width: 360px; font-size: .88rem; color: var(--muted); }
 .shots__grid { display: grid; gap: 34px; }
+/* kartu berlabel (Hemat/Baru): jendela bocoran digeser sedikit agar nama file tidak tertutup */
+.product__badge ~ .mock--peek .peek { top: 21%; }

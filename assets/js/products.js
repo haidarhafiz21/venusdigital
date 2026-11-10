@@ -120,7 +120,8 @@
     labarugi: ["labarugi", "Laporan Laba Rugi UMKM.xlsx"], stok: ["stok", "Stok Barang & Penjualan.xlsx"],
     gaji: ["gaji", "Absensi & Gaji Karyawan.xlsx"], rapor: ["rapor", "Rapor Kurikulum Merdeka.xlsx"],
     "absensi-sekolah": ["absensi-sekolah", "Absensi Siswa.xlsx"], hutang: ["hutang", "Hutang Piutang & Cicilan.xlsx"],
-    nikah: ["nikah", "Anggaran Pernikahan.xlsx"]
+    nikah: ["nikah", "Anggaran Pernikahan.xlsx"], "web-toko": ["web-toko", "Toko Online · index.html"],
+    bundle20: ["bundle", "20 template · Invoice Penjualan.xlsx"]
   };
 
   function mockHTML(p, root) {
@@ -178,6 +179,8 @@
                         shot("absensi-sekolah-2", 1576, 289, "Jurnal mengajar untuk setiap pertemuan.", "Jurnal mengajar berisi tanggal, hari, mapel, materi, dan kegiatan pembelajaran")],
     hutang: [shot("hutang-1", 1531, 405, "Daftar hutang & piutang dengan status jatuh tempo otomatis.", "Daftar hutang dan piutang berisi jumlah, terbayar, sisa, status, dan sisa hari"),
              shot("hutang-2", 1600, 279, "Cicilan bulanan: sisa tenor dan jatuh tempo berikutnya.", "Tabel cicilan berisi cicilan per bulan, tenor, sisa, dan tanggal jatuh tempo berikutnya")],
+    "web-toko": [shot("web-toko-1", 1366, 1606, "Halaman toko: katalog, filter kategori, pencarian, dan tombol tambah ke keranjang.", "Tampilan halaman utama template website toko online berisi katalog produk"),
+                 shot("web-toko-2", 780, 1688, "Keranjang di HP: ubah jumlah, isi data, lalu pesan langsung via WhatsApp.", "Tampilan keranjang belanja di HP dengan formulir checkout ke WhatsApp")],
     bundle20: [shot("bundle-invoice", 964, 836, "Invoice siap cetak: pilih pelanggan & produk, total dan terbilang otomatis.", "Invoice penjualan berisi daftar barang, total, dan terbilang otomatis"),
                shot("bundle-pesanan", 1600, 832, "Rekap pesanan online: omzet & pendapatan bersih per channel dan per bulan.", "Dashboard rekap pesanan online per channel marketplace dengan grafik omzet bulanan"),
                shot("bundle-kuitansi", 847, 571, "Kuitansi pembayaran dengan terbilang otomatis.", "Kuitansi pembayaran berisi nama pembayar, jumlah uang, dan terbilang")],
