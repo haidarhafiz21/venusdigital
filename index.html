@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261111">
   <!-- Aktifkan animasi hanya jika JavaScript berjalan (failsafe: konten tetap tampil bila JS gagal) -->
   <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__venusReady)document.documentElement.classList.remove("js")},4000);</script>
 
@@ -41,7 +41,7 @@
     "url": "https://haidarhafiz21.github.io/venusdigital/",
     "telephone": "+62-851-8488-5472",
     "image": "https://haidarhafiz21.github.io/venusdigital/assets/img/og-image.png",
-    "priceRange": "Rp25.000 - Rp499.000",
+    "priceRange": "Rp29.000 - Rp499.000",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Pamekasan",
@@ -115,8 +115,6 @@
     </div>
   </div>
 
-  <div class="progress" id="progress" aria-hidden="true"></div>
-
   <header class="header" id="header">
     <div class="container">
       <div class="header__bar">
@@ -144,8 +142,7 @@
                   <span class="mega__tag">Paling hemat</span>
                   <b>Bundle 20 Template Excel Bisnis</b>
                   <p class="mega__price">Rp149.000 <del>Rp499.000</del></p>
-                  <button type="button" class="btn btn--accent btn--sm btn--shine" data-open="bundle20">Lihat Detail</button>
-                  <span class="mega__art" aria-hidden="true"></span>
+                  <button type="button" class="btn btn--accent btn--sm" data-open="bundle20">Lihat Detail</button>
                 </div>
               </div>
             </li>
@@ -161,7 +158,7 @@
           <button type="button" class="search-trigger" id="searchOpen" aria-label="Cari produk (Ctrl+K)">
             <svg class="i"><use href="#i-search"/></svg><span>Cari produk</span><kbd>Ctrl K</kbd>
           </button>
-          <a href="#kontak" class="btn btn--primary header__cta btn--shine">Hubungi Kami</a>
+          <a href="#kontak" class="btn btn--primary header__cta">Hubungi Kami</a>
           <button type="button" class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="drawer">
             <span></span><span></span><span></span>
           </button>
@@ -203,13 +200,11 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="beranda">
-      <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
-      <div class="hero__spot" aria-hidden="true"></div>
       <div class="container hero__inner">
         <div class="hero__text">
           <p class="eyebrow" style="--i:0">Toko produk digital dari Madura</p>
           <h1 style="--i:1">Template Excel & Produk Digital yang <span class="hl">Langsung Bisa Dipakai</span></h1>
-          <p class="hero__lead" style="--i:2">Catat pengeluaran bulanan, buat laporan keuangan usaha, kelola stok dan gaji karyawan — tanpa harus belajar rumus. Cukup isi, semua terhitung otomatis.</p>
+          <p class="hero__lead" style="--i:2">Catat pengeluaran bulanan, buat laporan keuangan usaha, kelola stok dan gaji karyawan tanpa harus belajar rumus. Cukup isi datanya, semua terhitung otomatis.</p>
 
           <form class="hero__search" id="heroSearch" role="search" style="--i:3">
             <label for="heroSearchInput" class="sr-only">Cari produk</label>
@@ -219,21 +214,14 @@
           </form>
 
           <ul class="hero__points" style="--i:4">
-            <li><svg class="i"><use href="#i-check"/></svg>Mulai Rp25.000</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Mulai Rp29.000</li>
             <li><svg class="i"><use href="#i-check"/></svg>Excel & Google Sheets</li>
             <li><svg class="i"><use href="#i-check"/></svg>Panduan di setiap file</li>
           </ul>
         </div>
 
-        <!-- Panggung 3D: bergerak mengikuti kursor & scroll -->
-        <div class="hero__visual" id="heroVisual" aria-hidden="true">
-          <div class="stage" id="stage">
-          <div class="back-card">
-            <span class="back-card__title"><svg class="i"><use href="#i-sheet"/></svg>Laba Rugi 2026.xlsx</span>
-            <div class="back-card__bars"><i style="--h:45%"></i><i style="--h:62%"></i><i style="--h:38%"></i><i style="--h:80%"></i><i style="--h:56%"></i><i style="--h:92%"></i></div>
-          </div>
+        <figure class="hero__visual">
           <div class="sheet-win">
-            <span class="glare"></span>
             <div class="sheet-win__bar">
               <i></i><i></i><i></i>
               <span class="sheet-win__name"><svg class="i"><use href="#i-sheet"/></svg>Keuangan Rumah Tangga.xlsx</span>
@@ -243,21 +231,17 @@
                    alt="Tampilan asli template Excel Keuangan Rumah Tangga: tabel pendapatan, pengeluaran, dan tabungan per bulan">
             </div>
           </div>
-          <div class="note-card note-card--a"><svg class="i"><use href="#i-download"/></svg><div><b>Siap diunduh</b><small>.xlsx & Google Sheets</small></div></div>
-          <div class="note-card note-card--b"><svg class="i"><use href="#i-trend"/></svg><div><b>Grafik otomatis</b><small>Tanpa rumus manual</small></div></div>
-          <div class="chip-float"><svg class="i"><use href="#i-check"/></svg>Sisa uang terpantau</div>
-          </div>
-        </div>
+          <figcaption>Tampilan asli template Keuangan Rumah Tangga &amp; Tabungan, diisi data contoh.</figcaption>
+        </figure>
       </div>
-      <a href="#produk" class="scroll-cue" id="scrollCue" aria-label="Gulir ke katalog produk"><span></span></a>
     </section>
 
     <!-- TRUST BAR -->
     <section class="trustbar">
       <div class="container trustbar__inner">
         <!-- Hanya fakta yang benar. Tambahkan jumlah pembeli/rating asli di sini bila sudah ada. -->
-        <div class="stat" data-count="12"><b>12</b><span>Produk siap pakai</span></div>
-        <div class="stat" data-count="7" data-suffix=" hari"><b>7 hari</b><span>Garansi uang kembali</span></div>
+        <div class="stat"><b>12</b><span>Produk siap pakai</span></div>
+        <div class="stat"><b>7 hari</b><span>Garansi uang kembali</span></div>
         <div class="stat"><b>08–21</b><span>Respon WhatsApp tiap hari</span></div>
         <div class="pay">
           <span class="pay__label">Metode pembayaran</span>
@@ -266,48 +250,14 @@
       </div>
     </section>
 
-    <!-- PITA PRODUK BERJALAN (berhenti saat disorot) -->
-    <nav class="marquee" aria-label="Daftar produk">
-      <div class="marquee__track">
-        <div class="marquee__group">
-          <a class="marquee__item" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
-          <a class="marquee__item" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
-          <a class="marquee__item" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
-          <a class="marquee__item" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
-          <a class="marquee__item" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
-          <a class="marquee__item" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
-          <a class="marquee__item" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
-          <a class="marquee__item" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
-          <a class="marquee__item" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
-          <a class="marquee__item" href="produk/template-website-toko-online/">Website Toko Online</a>
-          <a class="marquee__item" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
-          <a class="marquee__item" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
-        </div>
-        <div class="marquee__group" aria-hidden="true">
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
-          <a class="marquee__item" tabindex="-1" href="produk/template-website-toko-online/">Website Toko Online</a>
-          <a class="marquee__item" tabindex="-1" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
-          <a class="marquee__item" tabindex="-1" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
-        </div>
-      </div>
-    </nav>
-
     <!-- KATEGORI -->
     <section class="section section--tight">
       <div class="container">
         <div class="cats" id="cats">
-          <button class="cat" data-filter="keuangan"><span class="cat__ic"><svg class="i"><use href="#i-wallet"/></svg></span><span><b>Keuangan Pribadi</b><small>Pengeluaran, tabungan</small></span></button>
+          <button class="cat" data-filter="keuangan"><span class="cat__ic"><svg class="i"><use href="#i-wallet"/></svg></span><span><b>Keuangan Pribadi</b><small>Anggaran, tabungan</small></span></button>
           <button class="cat" data-filter="bisnis"><span class="cat__ic"><svg class="i"><use href="#i-briefcase"/></svg></span><span><b>Bisnis & UMKM</b><small>Laporan, stok, gaji</small></span></button>
           <button class="cat" data-filter="pendidikan"><span class="cat__ic"><svg class="i"><use href="#i-grad"/></svg></span><span><b>Pendidikan</b><small>Rapor, absensi</small></span></button>
-          <button class="cat" data-filter="web"><span class="cat__ic"><svg class="i"><use href="#i-code"/></svg></span><span><b>Website & Aplikasi</b><small>Source code siap pakai</small></span></button>
+          <button class="cat" data-filter="web"><span class="cat__ic"><svg class="i"><use href="#i-code"/></svg></span><span><b>Website & Aplikasi</b><small>Source code</small></span></button>
           <button class="cat" data-filter="bundle"><span class="cat__ic"><svg class="i"><use href="#i-package"/></svg></span><span><b>Paket Bundle</b><small>Lebih hemat</small></span></button>
         </div>
       </div>
@@ -350,15 +300,32 @@
             <div class="bundle__price">
               <strong>Rp149.000</strong><del>Rp499.000</del>
             </div>
-            <button class="btn btn--accent btn--shine" data-open="bundle20">Lihat Detail Bundle <svg class="i"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn--accent" data-open="bundle20">Lihat Detail Bundle <svg class="i"><use href="#i-arrow"/></svg></button>
           </div>
-          <div class="bundle__files" aria-hidden="true">
-            <div class="fileicon"><svg class="i"><use href="#i-sheet"/></svg><span>Laporan Laba Rugi</span></div>
-            <div class="fileicon"><svg class="i"><use href="#i-sheet"/></svg><span>Stok Barang</span></div>
-            <div class="fileicon"><svg class="i"><use href="#i-sheet"/></svg><span>Gaji Karyawan</span></div>
-            <div class="fileicon"><svg class="i"><use href="#i-sheet"/></svg><span>Invoice Otomatis</span></div>
-            <div class="fileicon"><svg class="i"><use href="#i-sheet"/></svg><span>Hutang Piutang</span></div>
-            <div class="fileicon fileicon--more"><b>+15</b><span>template lainnya</span></div>
+          <div class="bundle__list">
+            <p>Isi paket: 20 file Excel</p>
+            <ol>
+              <li>Pengeluaran Bulanan</li>
+              <li>Keuangan Rumah Tangga</li>
+              <li>Laporan Keuangan UMKM</li>
+              <li>Stok Barang &amp; Penjualan</li>
+              <li>Absensi &amp; Gaji Karyawan</li>
+              <li>Rapor Kurikulum Merdeka</li>
+              <li>Absensi Siswa &amp; Jurnal Guru</li>
+              <li>Hutang Piutang &amp; Cicilan</li>
+              <li>Anggaran Pernikahan</li>
+              <li>Invoice Penjualan</li>
+              <li>Kuitansi Pembayaran</li>
+              <li>Kasir Sederhana</li>
+              <li>Buku Kas Kecil</li>
+              <li>Kalkulator HPP &amp; Harga Jual</li>
+              <li>Purchase Order (PO)</li>
+              <li>Data Pelanggan</li>
+              <li>Target Penjualan</li>
+              <li>Inventaris &amp; Penyusutan</li>
+              <li>Jadwal Shift Karyawan</li>
+              <li>Rekap Pesanan Online</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -371,10 +338,9 @@
           <p class="eyebrow">Cara Beli</p>
           <h2>Empat langkah, file langsung di tangan</h2>
         </div>
-        <div class="howto-rail" id="howtoRail" aria-hidden="true"><span class="howto-rail__fill"></span><i></i><i></i><i></i><i></i></div>
         <ol class="howto" id="howto">
           <li><span class="howto__ic"><svg class="i"><use href="#i-search"/></svg></span><b>Pilih produk</b><p>Lihat detail dan contoh tampilan setiap template.</p></li>
-          <li><span class="howto__ic"><svg class="i"><use href="#i-qr"/></svg></span><b>Bayar</b><p>Via QRIS, transfer bank, atau e-wallet.</p></li>
+          <li><span class="howto__ic"><svg class="i"><use href="#i-qr"/></svg></span><b>Bayar</b><p>Via QRIS, transfer bank, atau e&#8209;wallet.</p></li>
           <li><span class="howto__ic"><svg class="i"><use href="#i-download"/></svg></span><b>Terima file</b><p>Link unduhan dikirim ke WhatsApp & email Anda.</p></li>
           <li><span class="howto__ic"><svg class="i"><use href="#i-headset"/></svg></span><b>Dibantu sampai bisa</b><p>Ada lembar panduan di setiap file dan bantuan via WhatsApp.</p></li>
         </ol>
@@ -484,36 +450,7 @@
       </div>
     </section>
 
-    <!-- TESTIMONI -->
-    <!-- Disembunyikan sampai ada ulasan pembeli ASLI. Ganti isi testimoni, lalu hapus atribut "hidden". -->
-    <section class="section" id="testimoni" hidden>
-      <div class="container">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Ulasan Pembeli</p>
-            <h2>Apa kata mereka</h2>
-          </div>
-          <div class="rating-sum">
-            <span class="stars" aria-hidden="true"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></span>
-            <strong>4,9 dari 5</strong><small>berdasarkan 860 ulasan</small>
-          </div>
-        </div>
-        <div class="testis">
-          <figure class="testi">
-            <blockquote>Sekarang tahu persis uang gaji habis ke mana. Grafiknya langsung muncul, tinggal isi tiap hari.</blockquote>
-            <figcaption><span class="avatar">NA</span><div><b>Nur Aini</b><small>Template Pengeluaran Bulanan</small></div></figcaption>
-          </figure>
-          <figure class="testi">
-            <blockquote>Laporan laba rugi toko jadi rapi. Dulu pakai buku tulis, sekarang tiap akhir bulan tinggal cetak.</blockquote>
-            <figcaption><span class="avatar">MR</span><div><b>Moh. Rofiq</b><small>Laporan Keuangan UMKM</small></div></figcaption>
-          </figure>
-          <figure class="testi">
-            <blockquote>Sempat bingung cara pakainya, tapi dibantu lewat WhatsApp sampai bisa. Pelayanannya sabar.</blockquote>
-            <figcaption><span class="avatar">SH</span><div><b>Siti Hasanah</b><small>Rapor Kurikulum Merdeka</small></div></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
+    <!-- TESTIMONI: bagian ini sengaja belum ada. Tambahkan hanya dengan ulasan pembeli asli. -->
 
     <!-- AREA (SEO lokal) -->
     <section class="section section--cream" id="area">
@@ -613,7 +550,6 @@
   </footer>
 
   <button type="button" class="totop" id="toTop" aria-label="Kembali ke atas">
-    <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="totop__track" cx="24" cy="24" r="21"/><circle class="totop__bar" id="toTopBar" cx="24" cy="24" r="21"/></svg>
     <svg class="i"><use href="#i-arrow-up"/></svg>
   </button>
 
@@ -658,7 +594,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/js/products.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/products.js?v=20261111" defer></script>
+  <script src="assets/js/main.js?v=20261111" defer></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* =========================================================
-   Venus Digital — main.js (tanpa backend, tanpa library)
+   Venus Digital - main.js (tanpa backend, tanpa library)
    ========================================================= */
 (function () {
   "use strict";
@@ -7,14 +7,10 @@
   /* ---------- KONFIGURASI: ganti di sini ---------- */
   var CONFIG = {
     waNumber: "6285184885472", // format internasional, tanpa "+" atau "0" di depan
-    brand: "Venus Digital",
-    showRatings: false         // ubah ke true HANYA jika rating & jumlah ulasan di data produk sudah asli
-
+    brand: "Venus Digital"
   };
 
-  /* ---------- DATA PRODUK (nanti diganti dari backend/database) ----------
-     mock: sheet | chart | dash | web | app | bundle  (gaya thumbnail)
-     tags: keuangan | bisnis | pendidikan | web | bundle                    */
+  /* ---------- DATA PRODUK ---------- */
   var PRODUCTS = window.VENUS.products; // data ada di assets/js/products.js
 
   var FILTER_LABEL = { all: "Semua", keuangan: "Keuangan", bisnis: "Bisnis & UMKM", pendidikan: "Pendidikan", web: "Website & Aplikasi", bundle: "Paket Bundle" };
@@ -63,71 +59,40 @@
   }
 
   /* =========================================================
-     ANIMASI SCROLL (arah-sadar: dari bawah saat scroll turun,
-     dari atas saat scroll naik)
+     ANIMASI SCROLL: elemen muncul sekali saat pertama terlihat
      ========================================================= */
-  // Di HP/tablet elemen cukup muncul sekali: tidak disembunyikan lagi saat
-  // digeser balik, supaya scroll cepat (momentum iPhone) tetap mulus.
-  var revealOnce = !finePointer;
   var revealIO = ("IntersectionObserver" in window && !reduceMotion)
     ? new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          var el = en.target;
-          var visible = en.intersectionRatio >= 0.12 || en.intersectionRect.height > window.innerHeight * 0.2;
-          if (visible) {
-            el.classList.add("in");
-            if (el.hasAttribute("data-count")) countUp(el);
-            if (revealOnce) revealIO.unobserve(el);
-          } else if (!en.isIntersecting && !revealOnce) {
-            el.classList.remove("in");
-            el.classList.toggle("from-top", en.boundingClientRect.top < 0);
-          }
+          if (!en.isIntersecting) return;
+          en.target.classList.add("in");
+          revealIO.unobserve(en.target);
         });
-      }, { threshold: [0, 0.12] })
+      }, { rootMargin: "0px 0px -8% 0px" })
     : null;
 
-  function addReveal(el, delay, variant) {
+  function addReveal(el, delay) {
     el.classList.add("reveal");
-    if (variant) el.classList.add("reveal--" + variant);
     el.style.setProperty("--d", (delay || 0) + "ms");
     if (revealIO) revealIO.observe(el);
-    else { el.classList.add("in"); if (el.hasAttribute("data-count")) countUp(el); }
+    else el.classList.add("in");
   }
 
-  function revealAll(sel, step, variant) {
+  function revealAll(sel, step) {
     var perParent = [];
     $all(sel).forEach(function (el) {
       var rec = null;
       for (var i = 0; i < perParent.length; i++) if (perParent[i].p === el.parentNode) rec = perParent[i];
       if (!rec) { rec = { p: el.parentNode, n: 0 }; perParent.push(rec); }
-      addReveal(el, Math.min(rec.n * (step || 0), 480), variant);
+      addReveal(el, Math.min(rec.n * (step || 0), 240));
       rec.n++;
     });
   }
 
-  function countUp(el) {
-    if (el.getAttribute("data-counted")) return;
-    el.setAttribute("data-counted", "1");
-    var b = $("b", el);
-    var target = parseFloat(el.getAttribute("data-count"));
-    var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
-    var suffix = el.getAttribute("data-suffix") || "";
-    function fmt(v) { return (dec ? v.toFixed(dec).replace(".", ",") : Math.round(v).toLocaleString("id-ID")) + suffix; }
-    if (reduceMotion) { b.textContent = fmt(target); return; }
-    var start = null, dur = 1600;
-    function step(ts) {
-      if (start === null) start = ts;
-      var p = Math.min((ts - start) / dur, 1);
-      b.textContent = fmt(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  /* ---------- Thumbnail produk (CSS, tidak ada gambar yang bisa rusak) ---------- */
+  /* ---------- Gambar produk ---------- */
   var mockHTML = window.VENUS.mockHTML;
   function productIcon(p) {
-    return p.mock === "web" || p.mock === "app" ? "code" : p.mock === "bundle" ? "package" : "sheet";
+    return p.tags.indexOf("web") !== -1 ? "code" : p.tags.indexOf("bundle") !== -1 ? "package" : "sheet";
   }
 
   /* =========================================================
@@ -155,16 +120,15 @@
           '<span class="product__cat">' + esc(p.cat) + "</span>" +
           '<h3 class="product__title"><a href="produk/' + p.slug + '/">' + esc(p.title) + "</a></h3>" +
           '<p class="product__desc">' + esc(p.desc) + "</p>" +
-          (CONFIG.showRatings ? '<div class="product__rating">' + icon("star") + p.rating.toFixed(1).replace(".", ",") + " <span>(" + p.reviews + " ulasan)</span></div>" : "") +
           '<div class="product__foot">' +
             '<div class="price"><strong>' + rupiah(p.price) + "</strong>" + (p.old ? "<del>" + rupiah(p.old) + "</del>" : "") + "</div>" +
-            '<a class="icon-btn" href="' + waLink(buyText(p)) + '" target="_blank" rel="noopener" aria-label="Beli ' + esc(p.title) + '">' + icon("cart") + "</a>" +
+            '<a class="buy-btn" href="' + waLink(buyText(p)) + '" target="_blank" rel="noopener" aria-label="Beli ' + esc(p.title) + ' lewat WhatsApp">Beli</a>' +
           "</div>" +
         "</div>" +
       "</div></article>";
     }).join("");
 
-    $all(".product", grid).forEach(function (el, i) { addReveal(el, (i % 4) * 80); });
+    $all(".product", grid).forEach(function (el, i) { addReveal(el, (i % 4) * 60); });
     empty.hidden = list.length > 0;
 
     info.textContent = "";
@@ -217,25 +181,6 @@
     if (!this.value && state.query) { state.query = ""; render(); }
   });
 
-  /* Kartu produk: efek miring 3D + kilau mengikuti kursor */
-  if (finePointer && !reduceMotion) {
-    var tiltCard = null;
-    var resetTilt = function (c) { if (c) { c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); } };
-    grid.addEventListener("pointermove", function (e) {
-      if (e.pointerType !== "mouse") return;
-      var card = e.target.closest(".product__card");
-      if (card !== tiltCard) { resetTilt(tiltCard); tiltCard = card; }
-      if (!card) return;
-      var r = card.parentNode.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.setProperty("--ry", ((x - 0.5) * 12).toFixed(2) + "deg");
-      card.style.setProperty("--rx", ((0.5 - y) * 10).toFixed(2) + "deg");
-      card.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
-      card.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
-    });
-    grid.addEventListener("pointerleave", function () { resetTilt(tiltCard); tiltCard = null; });
-  }
-
   /* =========================================================
      MODAL DETAIL PRODUK
      ========================================================= */
@@ -283,58 +228,21 @@
 
   /* =========================================================
      NAVBAR: sembunyi saat scroll turun, muncul saat scroll naik,
-     progress bar, indikator yang meluncur, mega menu
+     indikator menu, mega menu
      ========================================================= */
   var header = $("#header");
-  var progress = $("#progress");
   var lastY = window.scrollY;
   var scrollTicking = false;
-  var toTop = $("#toTop"), toTopBar = $("#toTopBar"), scrollCue = $("#scrollCue");
-  var RING = 131.95; // keliling lingkaran r=21
+  var toTop = $("#toTop");
 
-  // Garis progres "Cara Beli" yang terisi mengikuti scroll (naik & turun)
-  var howto = $("#howto"), rail = $("#howtoRail");
-  var howtoItems = howto ? $all("li", howto) : [], railDots = rail ? $all("i", rail) : [];
-  var railP = -1;
-  function railProgress(vh) {
-    if (!howto || !rail) return -1;
-    if (reduceMotion) return 1;
-    var top = howto.getBoundingClientRect().top;
-    return Math.min(Math.max((vh * 0.8 - top) / (vh * 0.5), 0), 1);
-  }
-  function updateRail(p) {
-    if (p < 0 || Math.abs(p - railP) < 0.002) return; // tidak berubah: jangan sentuh DOM
-    railP = p;
-    rail.style.setProperty("--p", p.toFixed(3));
-    var n = howtoItems.length;
-    howtoItems.forEach(function (li, i) {
-      var on = p >= i / (n - 1) - 0.001;
-      li.classList.toggle("is-on", on);
-      if (railDots[i]) railDots[i].classList.toggle("is-on", on);
-    });
-  }
-
-  var lastProg = -1;
   function onScroll() {
     if (scrollTicking) return;
     scrollTicking = true;
     requestAnimationFrame(function () {
       scrollTicking = false;
-      // Baca semua ukuran dulu, baru ubah tampilan (hindari layout paksa tiap frame)
-      var y = window.scrollY, vh = window.innerHeight;
-      var max = document.documentElement.scrollHeight - vh;
-      var rp = railProgress(vh);
-      var prog = max > 0 ? Math.min(y / max, 1) : 0;
-
+      var y = window.scrollY;
       header.classList.toggle("is-scrolled", y > 10);
-      if (Math.abs(prog - lastProg) > 0.0005) {
-        lastProg = prog;
-        progress.style.transform = "scaleX(" + prog.toFixed(4) + ")";
-        if (toTop && y > 600) toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
-      }
       if (toTop) toTop.classList.toggle("is-visible", y > 600);
-      if (scrollCue) scrollCue.classList.toggle("is-hidden", y > 80);
-      updateRail(rp);
       var dy = y - lastY;
       if (Math.abs(dy) > 8) {
         header.classList.toggle("is-hidden", dy > 0 && y > 320 && !megaOpen && !drawerOpen);
@@ -482,13 +390,13 @@
     var q = pInput.value.trim();
     pResults = q
       ? PRODUCTS.filter(function (p) { return matchQuery(p, q); })
-      : PRODUCTS.slice().sort(function (a, b) { return b.reviews - a.reviews; }).slice(0, 6);
+      : PRODUCTS.slice(0, 6);
     pIndex = 0;
     if (!pResults.length) {
       pList.innerHTML = '<li class="palette__empty">Tidak ada produk untuk “' + esc(q) + '”. <a href="#custom" data-palette-close>Request custom</a></li>';
       return;
     }
-    pList.innerHTML = '<li class="palette__label" role="presentation">' + (q ? "Hasil pencarian" : "Produk pilihan") + "</li>" +
+    pList.innerHTML = '<li class="palette__label" role="presentation">' + (q ? "Hasil pencarian" : "Produk") + "</li>" +
       pResults.map(function (p, i) {
         return '<li role="option" aria-selected="' + (i === 0) + '"><button type="button" class="palette__item' + (i === 0 ? " is-active" : "") + '" data-pi="' + i + '" tabindex="-1">' +
           '<span class="palette__thumb" style="--bg-c:' + p.bg + ";--ac:" + p.ac + '">' + icon(productIcon(p)) + "</span>" +
@@ -546,180 +454,15 @@
     if (closeMega()) megaBtn.focus();
   });
 
-  /* =========================================================
-     HERO 3D: panggung miring mengikuti kursor & scroll,
-     sorotan cahaya, dan gelombang titik 3D di latar belakang
-     ========================================================= */
-  var hero = $("#beranda");
-  var stage = $("#stage");
-  var heroVisible = true;
-  var pointer = { nx: 0, ny: 0, x: -9999, y: -9999, inside: false, last: 0 };
-
-  if (finePointer) {
-    hero.addEventListener("pointermove", function (e) {
-      var r = hero.getBoundingClientRect();
-      pointer.x = e.clientX - r.left;
-      pointer.y = e.clientY - r.top;
-      pointer.nx = pointer.x / r.width * 2 - 1;
-      pointer.ny = pointer.y / r.height * 2 - 1;
-      pointer.inside = true;
-      pointer.last = performance.now();
-      hero.style.setProperty("--mx", pointer.x.toFixed(0) + "px");
-      hero.style.setProperty("--my", pointer.y.toFixed(0) + "px");
-    });
-    hero.addEventListener("pointerleave", function () { pointer.inside = false; pointer.nx = 0; pointer.ny = 0; });
-  }
-
-  // Panggung 3D digerakkan JavaScript hanya di komputer (mouse).
-  // Di HP/tablet goyangannya memakai animasi CSS yang dijalankan GPU
-  // (lihat .stage di style.css), jadi tidak ikut tersendat saat layar digeser.
-  var cur = { rx: 8, ry: -10 };
-  var stageRunning = false;
-  function stageLoop(t) {
-    if (!heroVisible || document.hidden) { stageRunning = false; return; }
-    var idle = !pointer.inside || (t - pointer.last > 2500);
-    var tx, ty;
-    if (idle) { tx = 6 + Math.sin(t / 2400) * 4; ty = -8 + Math.sin(t / 3100) * 7; }
-    else { tx = -pointer.ny * 11; ty = pointer.nx * 15; }
-    cur.rx += (tx - cur.rx) * 0.06;
-    cur.ry += (ty - cur.ry) * 0.06;
-    var sp = Math.min(window.scrollY / Math.max(hero.offsetHeight, 1), 1);
-    stage.style.transform = "rotateX(" + (cur.rx + sp * 16).toFixed(2) + "deg) rotateY(" + cur.ry.toFixed(2) + "deg) translateY(" + (-sp * 40).toFixed(1) + "px)";
-    stage.style.setProperty("--gx", (50 + cur.ry * 3).toFixed(1) + "%");
-    stage.style.setProperty("--gy", (30 - cur.rx * 3).toFixed(1) + "%");
-    requestAnimationFrame(stageLoop);
-  }
-  function startStage() {
-    if (!finePointer || reduceMotion || stageRunning) return;
-    stageRunning = true;
-    requestAnimationFrame(stageLoop);
-  }
-
-  // Gelombang titik 3D (canvas, tanpa library).
-  // Canvas hanya menutup 55% bagian bawah hero (bagian atas memang tak terlihat),
-  // dan efek memudar dihitung langsung saat menggambar, bukan pakai mask CSS.
-  var canvas = $("#heroCanvas");
-  var ctx = canvas && canvas.getContext && canvas.getContext("2d");
-  var W = 0, H = 0, cols = 0, rows = 0, waveRunning = false;
-  var waveT = 0, waveLast = 0, lastScrollT = -1e4;
-  var lite = !finePointer; // HP/tablet: resolusi & frame rate lebih hemat
-  var WAVE_TOP = 0.45, WAVE_FADE = 0.35, WAVE_RGB = "rgb(29,110,85)";
-  var mouseC = { x: -9999, y: -9999, s: 0 };
-
-  function sizeWave() {
-    if (!ctx) return false;
-    var w = hero.clientWidth, h = hero.clientHeight;
-    if (!w || !h || (w === W && h === H)) return false;
-    W = w; H = h;
-    var dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2);
-    var ch = H * (1 - WAVE_TOP);
-    canvas.width = Math.max(1, Math.round(W * dpr));
-    canvas.height = Math.max(1, Math.round(ch * dpr));
-    var kx = canvas.width / W, ky = canvas.height / ch;
-    ctx.setTransform(kx, 0, 0, ky, 0, -H * WAVE_TOP * ky); // tetap pakai koordinat hero penuh
-    cols = W < 700 ? 34 : 60;
-    rows = W < 700 ? 18 : 28;
-    return true;
-  }
-
-  function drawWave(t) {
-    ctx.clearRect(0, 0, W, H);
-    var horizon = H * 0.6, cx = W / 2, sx = W * 0.17, sy = H * 0.7;
-    var fadeTop = H * WAVE_TOP, fadeLen = H * WAVE_FADE;
-    var targetS = pointer.inside ? 1 : 0;
-    mouseC.s += (targetS - mouseC.s) * 0.06;
-    if (pointer.inside) {
-      if (mouseC.x < -1000) { mouseC.x = pointer.x; mouseC.y = pointer.y; }
-      mouseC.x += (pointer.x - mouseC.x) * 0.12;
-      mouseC.y += (pointer.y - mouseC.y) * 0.12;
-    }
-    var sigma2 = 2 * 140 * 140, lifting = mouseC.s > 0.01, tinted = false;
-    ctx.fillStyle = WAVE_RGB;
-    for (var j = 0; j < rows; j++) {
-      var v = j / (rows - 1);
-      var s = 1 / (1 + v * 4);
-      for (var i = 0; i < cols; i++) {
-        var u = i / (cols - 1) * 2 - 1;
-        var px = cx + u * 6 * s * sx;
-        if (px < -10 || px > W + 10) continue;
-        var y = Math.sin(u * 3 + t * 0.0009) * 0.11 + Math.cos(v * 7 - t * 0.0012) * 0.09 + Math.sin((u + v) * 5 + t * 0.0006) * 0.05;
-        var py = horizon + (0.62 - y) * s * sy;
-        var lift = 0;
-        if (lifting) {
-          var dx = px - mouseC.x, dy = py - mouseC.y;
-          lift = Math.exp(-(dx * dx + dy * dy) / sigma2) * mouseC.s;
-          py -= lift * 60 * (0.4 + s);
-        }
-        var f = (py - fadeTop) / fadeLen; // memudar ke arah atas
-        if (f <= 0) continue;
-        var a = ((0.06 + 0.34 * s) * (1 - v * 0.5) + lift * 0.5) * (f < 1 ? f : 1);
-        if (a < 0.01) continue;
-        var k = Math.min(lift * 1.5, 1);
-        if (k > 0.02) {
-          ctx.fillStyle = "rgb(" + Math.round(29 + 197 * k) + "," + Math.round(110 + 2 * k) + "," + Math.round(85 - 27 * k) + ")";
-          tinted = true;
-        } else if (tinted) { ctx.fillStyle = WAVE_RGB; tinted = false; }
-        ctx.globalAlpha = a > 1 ? 1 : a;
-        ctx.beginPath();
-        ctx.arc(px, py, 0.7 + 2.3 * s + lift * 1.5, 0, 6.2832);
-        ctx.fill();
-      }
-    }
-    ctx.globalAlpha = 1;
-  }
-
-  function waveLoop(t) {
-    if (!heroVisible || document.hidden) { waveRunning = false; return; }
-    requestAnimationFrame(waveLoop);
-    if (!waveLast) waveLast = t - 16;
-    var dt = t - waveLast;
-    if (lite) {
-      // HP: diam sejenak selama layar digeser (scroll jadi prioritas), lalu ~30 fps
-      if (t - lastScrollT < 200) { waveLast = t; return; }
-      if (dt < 30) return;
-    }
-    waveLast = t;
-    waveT += Math.min(dt, 50);
-    drawWave(waveT);
-  }
-  function startWave() {
-    if (!ctx || reduceMotion || waveRunning) return;
-    waveRunning = true;
-    waveLast = 0;
-    requestAnimationFrame(waveLoop);
-  }
-  if (lite) window.addEventListener("scroll", function () { lastScrollT = performance.now(); }, { passive: true });
-  if (ctx) {
-    sizeWave();
-    if (reduceMotion) drawWave(0); else startWave();
-  }
-
-  if (!reduceMotion) {
-    startStage();
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        heroVisible = entries[0].isIntersecting;
-        if (heroVisible) { startStage(); startWave(); }
-      }).observe(hero);
-    }
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) { startStage(); startWave(); }
-    });
-  }
-
   /* ---------- Resize ---------- */
-  // Ukuran canvas mengikuti ukuran hero yang sebenarnya (termasuk saat font selesai dimuat)
-  var hasRO = "ResizeObserver" in window;
-  if (ctx && hasRO) new ResizeObserver(function () { if (sizeWave()) drawWave(waveT); }).observe(hero);
   var resizeTimer, lastW = window.innerWidth;
   window.addEventListener("resize", function () {
     // iPhone memicu "resize" setiap bilah alamat muncul/hilang saat scroll
-    // (hanya tingginya yang berubah) — abaikan supaya tidak tersendat.
+    // (hanya tingginya yang berubah): abaikan supaya tidak tersendat.
     if (window.innerWidth === lastW) return;
     lastW = window.innerWidth;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
-      if (ctx && !hasRO && sizeWave()) drawWave(waveT);
       if (window.innerWidth > 1024) setDrawer(false);
       moveIndicator(activeNavLink());
     }, 150);
@@ -781,59 +524,39 @@
   $("#ctaWa").href = generalWa;
   $("#year").textContent = new Date().getFullYear();
 
-  /* ---------- Judul muncul per kata ---------- */
-  function splitWords(el) {
-    if (!el || el.children.length || el.getAttribute("data-split")) return;
-    var text = el.textContent.trim().replace(/\s+/g, " ");
-    el.setAttribute("aria-label", text);
-    el.setAttribute("data-split", "1");
-    el.classList.add("split");
-    el.innerHTML = text.split(" ").map(function (w, i) {
-      return '<span class="w" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + "</span></span>";
-    }).join(" ");
-  }
-  if (!reduceMotion) $all(".section__head h2, .bundle h2, .custom h2, .area-wrap h2, .cta h2").forEach(splitWords);
-
   /* ---------- FAQ: buka-tutup dengan tinggi yang halus ---------- */
   if (!reduceMotion && Element.prototype.animate) {
     $all(".faq details").forEach(function (d) {
-      var summary = $("summary", d), anim = null;
+      var summary = $("summary", d), anim = null, closing = false;
       summary.addEventListener("click", function (e) {
         e.preventDefault();
-        if (anim) anim.cancel();
         var start = d.offsetHeight;
         var border = d.offsetHeight - d.clientHeight;
-        if (d.open) {
-          anim = d.animate({ height: [start + "px", (summary.offsetHeight + border) + "px"] }, { duration: 320, easing: "cubic-bezier(.2,.75,.2,1)" });
-          anim.onfinish = function () { d.open = false; anim = null; };
-        } else {
-          d.open = true;
-          anim = d.animate({ height: [start + "px", d.offsetHeight + "px"] }, { duration: 420, easing: "cubic-bezier(.2,.75,.2,1)" });
-          anim.onfinish = function () { anim = null; };
-        }
-        if (anim) anim.oncancel = function () { anim = null; };
+        var willOpen = !d.open || closing;
+        if (anim) { anim.onfinish = null; anim.cancel(); }
+        closing = !willOpen;
+        d.open = true;
+        var end = willOpen ? d.scrollHeight + border : summary.offsetHeight + border;
+        anim = d.animate({ height: [start + "px", end + "px"] }, { duration: willOpen ? 320 : 260, easing: "cubic-bezier(.2,.75,.2,1)" });
+        anim.onfinish = function () { if (!willOpen) d.open = false; closing = false; anim = null; };
       });
     });
   }
 
   /* ---------- Pasang animasi scroll ---------- */
   revealAll(".section__head", 0);
-  revealAll(".trustbar .stat, .trustbar .pay", 90);
-  revealAll(".cat", 70);
-  revealAll(".bundle", 0, "zoom");
-  revealAll(".howto li", 110);
-  revealAll(".feature", 110);
-  revealAll(".custom__text", 0, "left");
-  revealAll(".custom .form", 120, "right");
-  revealAll(".testi", 110);
-  revealAll(".area-wrap > div", 0, "left");
-  revealAll(".areas li", 80);
-  revealAll(".faq details", 70);
-  revealAll(".compare__row", 80);
+  revealAll(".cat", 50);
+  revealAll(".bundle", 0);
+  revealAll(".howto li", 70);
+  revealAll(".feature", 70);
+  revealAll(".custom__text", 0);
+  revealAll(".custom .form", 80);
+  revealAll(".area-wrap > div", 0);
+  revealAll(".areas", 0);
+  revealAll(".faq", 0);
+  revealAll(".compare", 0);
   revealAll(".platforms", 0);
-  revealAll(".cta", 0, "zoom");
-  revealAll(".footer__grid > div", 90);
-  updateRail(railProgress(window.innerHeight));
+  revealAll(".cta", 0);
 
   render();
   window.__venusReady = true;

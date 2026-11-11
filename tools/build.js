@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* =========================================================
-   Venus Digital — generator halaman statis
+   Venus Digital - generator halaman statis
    Membuat: halaman produk, artikel, kebijakan, dan sitemap.xml
    Jalankan dari folder proyek:   node tools/build.js
    ========================================================= */
@@ -91,16 +91,15 @@ function layout(o) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="${r}assets/css/style.css">
+  <link rel="stylesheet" href="${r}assets/css/style.css?v=20261111">
   <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__venusReady)document.documentElement.classList.remove("js")},4000);</script>
   ${(o.jsonld || []).map(jsonld).join("\n  ")}
 </head>
 <body>
-  <!-- Halaman ini dibuat otomatis oleh tools/build.js — edit sumbernya, bukan file ini. -->
+  <!-- Halaman ini dibuat otomatis oleh tools/build.js. Edit sumbernya, bukan file ini. -->
   ${SPRITE}
 
   <a class="skip-link" href="#main">Lewati ke konten</a>
-  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <div class="topbar">
     <div class="container topbar__inner">
@@ -125,7 +124,7 @@ function layout(o) {
           </ul>
         </nav>
         <div class="header__actions">
-          <a href="${generalWa}" target="_blank" rel="noopener" class="btn btn--primary header__cta btn--shine">Hubungi Kami</a>
+          <a href="${generalWa}" target="_blank" rel="noopener" class="btn btn--primary header__cta">Hubungi Kami</a>
           <button type="button" class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="drawer">
             <span></span><span></span><span></span>
           </button>
@@ -185,7 +184,6 @@ ${o.body}
 
 ${o.extra || ""}
   <button type="button" class="totop" id="toTop" aria-label="Kembali ke atas">
-    <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="totop__track" cx="24" cy="24" r="21"/><circle class="totop__bar" id="toTopBar" cx="24" cy="24" r="21"/></svg>
     ${icon("arrow-up")}
   </button>
 
@@ -193,7 +191,7 @@ ${o.extra || ""}
     <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
   </a>
 
-  <script src="${r}assets/js/page.js" defer></script>
+  <script src="${r}assets/js/page.js?v=20261111" defer></script>
 </body>
 </html>
 `;
@@ -211,7 +209,7 @@ function productCard(q, r, i) {
             <p class="product__desc">${esc(q.desc)}</p>
             <div class="product__foot">
               <div class="price"><strong>${rupiah(q.price)}</strong>${q.old ? `<del>${rupiah(q.old)}</del>` : ""}</div>
-              <a class="icon-btn" href="${waLink(buyText(q))}" target="_blank" rel="noopener" aria-label="Beli ${esc(q.title)}">${icon("cart")}</a>
+              <a class="buy-btn" href="${waLink(buyText(q))}" target="_blank" rel="noopener" aria-label="Beli ${esc(q.title)} lewat WhatsApp">Beli</a>
             </div>
           </div>
         </div></article>`;
@@ -231,12 +229,12 @@ function articleCard(a, r, i, Tag) {
 function shotsSection(p, r) {
   if (!p.shots || !p.shots.length) return "";
   const figs = p.shots.map((s) => `
-          <figure class="shot" data-reveal="0" style="max-width:${Math.round(s.w / 1.4)}px">
+          <figure class="shot${s.w >= 1200 ? " shot--wide" : ""}" data-reveal="0" style="max-width:${Math.round(s.w / 1.4)}px">
             <a href="${r}${s.src}" target="_blank" rel="noopener" aria-label="Buka gambar ukuran penuh">
               <img src="${r}${s.small || s.src}" srcset="${r}${s.small || s.src} 900w, ${r}${s.src} ${s.w}w" sizes="(max-width: 1200px) 100vw, 1160px"
                    width="${s.w}" height="${s.h}" alt="${esc(s.alt)}" loading="lazy" decoding="async">
             </a>
-            <figcaption>${esc(s.caption)} <span>Klik gambar untuk memperbesar.</span></figcaption>
+            <figcaption>${esc(s.caption)} <span class="shot__hint">Klik gambar untuk memperbesar.</span></figcaption>
           </figure>`).join("");
   return `
     <section class="section section--tight shots">
@@ -275,7 +273,7 @@ function productPage(p) {
             <p class="subhero__lead">${esc(p.desc)}</p>
             <div class="pd__price"><strong>${rupiah(p.price)}</strong>${p.old ? `<del>${rupiah(p.old)}</del><span class="pd__save">Hemat ${save}%</span>` : ""}</div>
             <div class="pd__actions">
-              <a class="btn btn--accent btn--shine" href="${buy}" target="_blank" rel="noopener">${icon("cart")}Beli via WhatsApp</a>
+              <a class="btn btn--accent" href="${buy}" target="_blank" rel="noopener">${icon("cart")}Beli via WhatsApp</a>
               <a class="btn btn--outline" href="${ask}" target="_blank" rel="noopener">Tanya Dulu</a>
             </div>
             <ul class="pd__trust">
@@ -314,7 +312,7 @@ ${shotsSection(p, r)}
             <h2>Cara membeli</h2>
             <ol class="steps-mini">
               <li><div><b>Klik "Beli via WhatsApp"</b><span>Pesan berisi nama produk terisi otomatis.</span></div></li>
-              <li><div><b>Bayar</b><span>QRIS, transfer bank, atau e-wallet.</span></div></li>
+              <li><div><b>Bayar</b><span>QRIS, transfer bank, atau e&#8209;wallet.</span></div></li>
               <li><div><b>Terima file</b><span>Link unduhan dikirim ke WhatsApp Anda.</span></div></li>
             </ol>
             <div class="pd__price" style="margin:22px 0 16px"><div class="price"><small>Harga</small><strong>${rupiah(p.price)}</strong>${p.old ? `<del>${rupiah(p.old)}</del>` : ""}</div></div>
@@ -351,7 +349,7 @@ ${shotsSection(p, r)}
 
   return layout({
     path: pagePath,
-    title: `${name} — ${rupiah(p.price)} | ${BRAND}`,
+    title: `${name} - ${rupiah(p.price)} | ${BRAND}`,
     description: `${p.desc} Harga ${rupiah(p.price)}. ${compatText(p)}`,
     ogImage: SITE + `assets/img/og/${p.slug}.png`,
     active: "produk",
