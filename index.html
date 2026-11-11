@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261112">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261113">
   <!-- Aktifkan animasi hanya jika JavaScript berjalan (failsafe: konten tetap tampil bila JS gagal) -->
   <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__venusReady)document.documentElement.classList.remove("js")},4000);</script>
 
@@ -223,19 +223,28 @@
           </ul>
         </div>
 
-        <figure class="hero__visual">
-          <div class="sheet-win">
-            <div class="sheet-win__bar">
-              <i></i><i></i><i></i>
-              <span class="sheet-win__name"><svg class="i"><use href="#i-sheet"/></svg>Keuangan Rumah Tangga.xlsx</span>
+        <!-- Panggung 3D: miring mengikuti kursor di komputer, bergoyang pelan di HP -->
+        <div class="hero__visual" id="heroVisual">
+          <div class="stage" id="stage">
+            <div class="back-card" aria-hidden="true">
+              <span class="back-card__title"><svg class="i"><use href="#i-sheet"/></svg>Laba Rugi 2026.xlsx</span>
+              <div class="back-card__bars"><i style="--h:45%"></i><i style="--h:62%"></i><i style="--h:38%"></i><i style="--h:80%"></i><i style="--h:56%"></i><i style="--h:92%"></i></div>
             </div>
-            <div class="sheet-win__shot">
-              <img src="assets/img/hero-excel.webp" width="1163" height="1225" decoding="async" fetchpriority="high"
-                   alt="Tampilan asli template Excel Keuangan Rumah Tangga: tabel pendapatan, pengeluaran, dan tabungan per bulan, serta grafiknya">
+            <div class="sheet-win">
+              <div class="sheet-win__bar">
+                <i></i><i></i><i></i>
+                <span class="sheet-win__name"><svg class="i"><use href="#i-sheet"/></svg>Keuangan Rumah Tangga.xlsx</span>
+              </div>
+              <div class="sheet-win__shot">
+                <img src="assets/img/hero-excel.webp" width="1163" height="1225" decoding="async" fetchpriority="high"
+                     alt="Tampilan asli template Excel Keuangan Rumah Tangga: tabel pendapatan, pengeluaran, dan tabungan per bulan, serta grafiknya">
+              </div>
             </div>
+            <div class="note-card note-card--a" aria-hidden="true"><svg class="i"><use href="#i-download"/></svg><div><b>Siap diunduh</b><small>.xlsx &amp; Google Sheets</small></div></div>
+            <div class="note-card note-card--b" aria-hidden="true"><svg class="i"><use href="#i-trend"/></svg><div><b>Grafik otomatis</b><small>Tanpa rumus manual</small></div></div>
+            <div class="chip-float" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg>Sisa uang terpantau</div>
           </div>
-          <figcaption>Tampilan asli template Keuangan Rumah Tangga &amp; Tabungan, diisi data contoh.</figcaption>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -633,7 +642,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/js/products.js?v=20261112" defer></script>
-  <script src="assets/js/main.js?v=20261112" defer></script>
+  <script src="assets/js/products.js?v=20261113" defer></script>
+  <script src="assets/js/main.js?v=20261113" defer></script>
 </body>
 </html>

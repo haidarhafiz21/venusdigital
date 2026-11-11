@@ -517,10 +517,12 @@
   });
 
   /* =========================================================
-     HERO: gelombang titik yang bergerak pelan di latar (canvas, tanpa library).
+     HERO: gelombang titik yang bergerak pelan di latar (canvas, tanpa library),
+     dan panggung 3D berisi jendela Excel.
      Canvas hanya menutup bagian bawah hero dan digambar ~30 kali per detik.
      ========================================================= */
   var hero = $("#beranda");
+  var stage = $("#stage");
   var canvas = $("#heroCanvas");
   var ctx = canvas && canvas.getContext && canvas.getContext("2d");
   var W = 0, H = 0, cols = 0, rows = 0, waveRunning = false, heroVisible = true;
@@ -597,14 +599,49 @@
     // Mulai bergerak setelah halaman selesai tampil, supaya pemuatan awal tetap ringan
     if (!reduceMotion) setTimeout(startWave, 1600);
   }
-  if (ctx && !reduceMotion) {
+
+  // Panggung 3D: di komputer miring mengikuti kursor, dan bergoyang pelan saat kursor diam.
+  // Di HP/tablet goyangannya memakai animasi CSS (lihat .stage di style.css).
+  var pointer = { nx: 0, ny: 0, inside: false, last: 0 };
+  var cur = { rx: 6, ry: -9 }, stageRunning = false;
+  if (finePointer && stage) {
+    hero.addEventListener("pointermove", function (e) {
+      var r = hero.getBoundingClientRect();
+      pointer.nx = (e.clientX - r.left) / r.width * 2 - 1;
+      pointer.ny = (e.clientY - r.top) / r.height * 2 - 1;
+      pointer.inside = true;
+      pointer.last = performance.now();
+    });
+    hero.addEventListener("pointerleave", function () { pointer.inside = false; });
+  }
+  function stageLoop(t) {
+    if (!heroVisible || document.hidden) { stageRunning = false; return; }
+    var idle = !pointer.inside || (t - pointer.last > 2500);
+    var tx, ty;
+    if (idle) { tx = 5 + Math.sin(t / 2600) * 2.5; ty = -8 + Math.sin(t / 3300) * 5; }
+    else { tx = -pointer.ny * 8; ty = pointer.nx * 11; }
+    cur.rx += (tx - cur.rx) * 0.06;
+    cur.ry += (ty - cur.ry) * 0.06;
+    stage.style.transform = "rotateX(" + cur.rx.toFixed(2) + "deg) rotateY(" + cur.ry.toFixed(2) + "deg)";
+    requestAnimationFrame(stageLoop);
+  }
+  function startStage() {
+    if (!stage || !finePointer || reduceMotion || stageRunning) return;
+    stageRunning = true;
+    requestAnimationFrame(stageLoop);
+  }
+  startStage();
+
+  if (!reduceMotion) {
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         heroVisible = entries[0].isIntersecting;
-        if (heroVisible) startWave();
+        if (heroVisible) { startStage(); startWave(); }
       }).observe(hero);
     }
-    document.addEventListener("visibilitychange", function () { if (!document.hidden) startWave(); });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) { startStage(); startWave(); }
+    });
   }
 
   /* ---------- Resize ---------- */
