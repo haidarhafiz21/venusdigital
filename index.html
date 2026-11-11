@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261111">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261112">
   <!-- Aktifkan animasi hanya jika JavaScript berjalan (failsafe: konten tetap tampil bila JS gagal) -->
   <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__venusReady)document.documentElement.classList.remove("js")},4000);</script>
 
@@ -115,6 +115,8 @@
     </div>
   </div>
 
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
   <header class="header" id="header">
     <div class="container">
       <div class="header__bar">
@@ -200,6 +202,7 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="beranda">
+      <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
       <div class="container hero__inner">
         <div class="hero__text">
           <p class="eyebrow" style="--i:0">Toko produk digital dari Madura</p>
@@ -227,8 +230,8 @@
               <span class="sheet-win__name"><svg class="i"><use href="#i-sheet"/></svg>Keuangan Rumah Tangga.xlsx</span>
             </div>
             <div class="sheet-win__shot">
-              <img src="assets/img/hero-excel.webp" width="1163" height="644" decoding="async" fetchpriority="high"
-                   alt="Tampilan asli template Excel Keuangan Rumah Tangga: tabel pendapatan, pengeluaran, dan tabungan per bulan">
+              <img src="assets/img/hero-excel.webp" width="1163" height="1225" decoding="async" fetchpriority="high"
+                   alt="Tampilan asli template Excel Keuangan Rumah Tangga: tabel pendapatan, pengeluaran, dan tabungan per bulan, serta grafiknya">
             </div>
           </div>
           <figcaption>Tampilan asli template Keuangan Rumah Tangga &amp; Tabungan, diisi data contoh.</figcaption>
@@ -240,8 +243,8 @@
     <section class="trustbar">
       <div class="container trustbar__inner">
         <!-- Hanya fakta yang benar. Tambahkan jumlah pembeli/rating asli di sini bila sudah ada. -->
-        <div class="stat"><b>12</b><span>Produk siap pakai</span></div>
-        <div class="stat"><b>7 hari</b><span>Garansi uang kembali</span></div>
+        <div class="stat" data-count="12"><b>12</b><span>Produk siap pakai</span></div>
+        <div class="stat" data-count="7" data-suffix=" hari"><b>7 hari</b><span>Garansi uang kembali</span></div>
         <div class="stat"><b>08–21</b><span>Respon WhatsApp tiap hari</span></div>
         <div class="pay">
           <span class="pay__label">Metode pembayaran</span>
@@ -249,6 +252,40 @@
         </div>
       </div>
     </section>
+
+    <!-- PITA PRODUK BERJALAN (berhenti saat disorot) -->
+    <nav class="marquee" aria-label="Daftar produk">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <a class="marquee__item" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
+          <a class="marquee__item" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
+          <a class="marquee__item" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
+          <a class="marquee__item" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
+          <a class="marquee__item" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
+          <a class="marquee__item" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
+          <a class="marquee__item" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
+          <a class="marquee__item" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
+          <a class="marquee__item" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
+          <a class="marquee__item" href="produk/template-website-toko-online/">Website Toko Online</a>
+          <a class="marquee__item" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
+          <a class="marquee__item" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
+        </div>
+        <div class="marquee__group" aria-hidden="true">
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-pengeluaran-bulanan/">Template Pengeluaran Bulanan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-laporan-laba-rugi-umkm/">Laporan Laba Rugi UMKM</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-stok-barang-penjualan/">Stok Barang &amp; Penjualan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-gaji-karyawan/">Absensi &amp; Gaji Karyawan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-rapor-kurikulum-merdeka/">Rapor Kurikulum Merdeka</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-keuangan-rumah-tangga/">Keuangan Rumah Tangga</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-hutang-piutang-cicilan/">Hutang Piutang &amp; Cicilan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-absensi-siswa-jurnal-guru/">Absensi Siswa &amp; Jurnal Guru</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-excel-anggaran-pernikahan/">Anggaran Pernikahan</a>
+          <a class="marquee__item" tabindex="-1" href="produk/template-website-toko-online/">Website Toko Online</a>
+          <a class="marquee__item" tabindex="-1" href="produk/aplikasi-kasir-toko/">Aplikasi Kasir</a>
+          <a class="marquee__item" tabindex="-1" href="produk/bundle-20-template-excel-bisnis/">Bundle 20 Template Bisnis</a>
+        </div>
+      </div>
+    </nav>
 
     <!-- KATEGORI -->
     <section class="section section--tight">
@@ -338,6 +375,7 @@
           <p class="eyebrow">Cara Beli</p>
           <h2>Empat langkah, file langsung di tangan</h2>
         </div>
+        <div class="howto-rail" id="howtoRail" aria-hidden="true"><span class="howto-rail__fill"></span><i></i><i></i><i></i><i></i></div>
         <ol class="howto" id="howto">
           <li><span class="howto__ic"><svg class="i"><use href="#i-search"/></svg></span><b>Pilih produk</b><p>Lihat detail dan contoh tampilan setiap template.</p></li>
           <li><span class="howto__ic"><svg class="i"><use href="#i-qr"/></svg></span><b>Bayar</b><p>Via QRIS, transfer bank, atau e&#8209;wallet.</p></li>
@@ -550,6 +588,7 @@
   </footer>
 
   <button type="button" class="totop" id="toTop" aria-label="Kembali ke atas">
+    <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="totop__track" cx="24" cy="24" r="21"/><circle class="totop__bar" id="toTopBar" cx="24" cy="24" r="21"/></svg>
     <svg class="i"><use href="#i-arrow-up"/></svg>
   </button>
 
@@ -594,7 +633,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/js/products.js?v=20261111" defer></script>
-  <script src="assets/js/main.js?v=20261111" defer></script>
+  <script src="assets/js/products.js?v=20261112" defer></script>
+  <script src="assets/js/main.js?v=20261112" defer></script>
 </body>
 </html>

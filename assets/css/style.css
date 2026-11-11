@@ -131,8 +131,8 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .mega__grid { display: grid; gap: 2px; padding: 4px; }
 .mega__item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; transition: background .2s; }
 .mega__item:hover, .mega__item:focus-visible { background: var(--green-50); }
-.mega__ic { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--green-50); color: var(--green-700); flex-shrink: 0; transition: background .3s, color .3s; }
-.mega__item:hover .mega__ic { background: var(--green-900); color: #fff; }
+.mega__ic { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--green-50); color: var(--green-700); flex-shrink: 0; transition: background .3s, color .3s, transform .4s var(--ease); }
+.mega__item:hover .mega__ic { background: var(--green-900); color: #fff; transform: rotate(-6deg); }
 .mega__item b { display: block; color: var(--ink); font-size: .92rem; }
 .mega__item small { color: var(--muted); font-size: .8rem; }
 .mega.is-open .mega__item, .mega.is-open .mega__all { animation: megaIn .45s var(--ease) both; }
@@ -193,7 +193,8 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 /* =========================================================
    HERO
    ========================================================= */
-.hero { position: relative; margin-top: calc(var(--header-h) * -1); padding: calc(var(--header-h) + 48px) 0 72px; background: linear-gradient(180deg, var(--green-50) 0%, #f5f8f4 55%, var(--bg) 100%); border-bottom: 1px solid var(--line); }
+.hero { position: relative; overflow: hidden; margin-top: calc(var(--header-h) * -1); padding: calc(var(--header-h) + 48px) 0 96px; background: linear-gradient(180deg, var(--green-50) 0%, #f5f8f4 55%, var(--bg) 100%); border-bottom: 1px solid var(--line); }
+.hero__canvas { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 55%; z-index: 0; pointer-events: none; }
 .hero__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; }
 .hero__inner > *, .custom > *, .area-wrap > *, .bundle > * { min-width: 0; }
 .hero__text > * { animation: heroIn .7s var(--ease) both; animation-delay: calc(var(--i, 0) * 60ms + 80ms); }
@@ -218,8 +219,9 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 
 
 .sheet-win { background: #fff; border-radius: 14px; border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
-/* Gambar asli dari file Excel, diperbesar supaya angkanya terbaca; sisi kanan terpotong */
-.sheet-win__shot { overflow: hidden; background: #fff; line-height: 0; }
+/* Gambar asli dari file Excel, diperbesar supaya angkanya terbaca. Jendela menampilkan sebagian lembar;
+   sisanya terlihat saat gambar bergeser pelan ke bawah (lihat sheetPan). */
+.sheet-win__shot { overflow: hidden; background: #fff; line-height: 0; aspect-ratio: 775 / 644; }
 .sheet-win__shot img { display: block; width: 150%; max-width: none; height: auto; }
 .sheet-win__bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #f3f5f3; border-bottom: 1px solid var(--line); }
 .sheet-win__bar > i { width: 10px; height: 10px; border-radius: 50%; background: #dfe3e1; }
@@ -252,8 +254,8 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .cat { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: 14px; text-align: left; transition: border-color .3s, box-shadow .3s; min-width: 0; }
 .cat:hover { border-color: var(--green-500); box-shadow: var(--shadow-sm); }
 .cat.is-active { border-color: var(--green-700); background: var(--green-50); box-shadow: inset 0 0 0 1px var(--green-700); }
-.cat__ic { width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--green-50); color: var(--green-700); flex-shrink: 0; transition: background .3s, color .3s; }
-.cat:hover .cat__ic, .cat.is-active .cat__ic { background: var(--green-900); color: #fff; }
+.cat__ic { width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--green-50); color: var(--green-700); flex-shrink: 0; transition: background .3s, color .3s, transform .4s var(--ease); }
+.cat:hover .cat__ic, .cat.is-active .cat__ic { background: var(--green-900); color: #fff; transform: rotate(-6deg); }
 .cat__ic .i { width: 22px; height: 22px; }
 .cat b { display: block; font-size: .9rem; color: var(--ink); line-height: 1.25; }
 .cat small { display: block; font-size: .76rem; color: var(--muted); }
@@ -310,8 +312,8 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 /* ---------- Cara beli ---------- */
 .howto { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
 .howto li { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; counter-increment: step; }
-.howto li::before { content: counter(step, decimal-leading-zero); position: absolute; top: 20px; right: 22px; font-weight: 800; font-size: 1.4rem; color: #dfe5e2; }
-.howto__ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: var(--green-900); color: #fff; margin-bottom: 16px; }
+.howto li::before { content: counter(step, decimal-leading-zero); position: absolute; top: 20px; right: 22px; font-weight: 800; font-size: 1.4rem; color: #dfe5e2; transition: color .35s; }
+.howto__ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: var(--green-900); color: #fff; margin-bottom: 16px; transition: background .35s; }
 .howto__ic .i { width: 22px; height: 22px; }
 .howto b { display: block; color: var(--ink); font-size: 1.02rem; margin-bottom: 4px; }
 .howto p { font-size: .9rem; color: var(--muted); margin: 0; }
@@ -454,7 +456,10 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 /* =========================================================
    ANIMASI SCROLL: elemen muncul sekali, gerak pendek
    ========================================================= */
-.js .reveal { opacity: 0; transform: translate3d(0, 16px, 0); transition: opacity .5s ease var(--d, 0ms), transform .6s var(--ease) var(--d, 0ms), border-color .3s, box-shadow .3s, background-color .3s; }
+.js .reveal { opacity: 0; transform: translate3d(0, 30px, 0); transition: opacity .7s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms), border-color .3s, box-shadow .3s, background-color .3s; }
+.js .reveal--left { transform: translate3d(-44px, 0, 0); }
+.js .reveal--right { transform: translate3d(44px, 0, 0); }
+.js .reveal--zoom { transform: scale(.96) translate3d(0, 22px, 0); }
 .js .reveal.in { opacity: 1; transform: none; }
 
 /* =========================================================
@@ -502,6 +507,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
   .bundle { padding: 30px 22px; }
   .palette { padding-top: 8vh; }
   .palette__foot { display: none; }
+  .js .reveal--left, .js .reveal--right { transform: translate3d(0, 30px, 0); }
 }
 
 @media (max-width: 560px) {
@@ -691,10 +697,14 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 /* Tombol kembali ke atas dengan cincin progres */
 .totop { position: fixed; right: 26px; bottom: 88px; z-index: 79; width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--green-900); box-shadow: 0 8px 22px -10px rgba(15, 61, 51, .45); display: grid; place-items: center; opacity: 0; visibility: hidden; transform: translateY(14px) scale(.9); transition: opacity .35s, visibility .35s, transform .45s var(--ease), bottom .45s var(--ease); }
 .totop.is-visible { opacity: 1; visibility: visible; transform: none; }
+.totop__ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.totop__track, .totop__bar { fill: none; stroke-width: 3; }
+.totop__track { stroke: var(--green-100); }
+.totop__bar { stroke: var(--orange); stroke-linecap: round; stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
 .totop > .i { position: relative; width: 18px; height: 18px; transition: transform .3s var(--ease); }
 .totop:hover > .i { transform: translateY(-3px); }
 .wa-float { transition: transform .3s var(--ease), bottom .45s var(--ease); }
-.totop { border: 1px solid var(--line); }
+
 
 /* Transisi halus saat pindah halaman (browser yang mendukung) */
 @view-transition { navigation: auto; }
@@ -714,6 +724,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .buybar { display: none; }
 
 @media (max-width: 960px) {
+  .howto-rail { display: none; }
   .buybar { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 85; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 16px; background: rgba(255, 255, 255, .97); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lg); transform: translateY(calc(100% + 24px)); transition: transform .45s var(--ease); }
   .buybar.is-visible { transform: none; }
   .buybar__info { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
@@ -736,6 +747,9 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
+  .js .reveal .split .w > span { transform: none; }
+  .js .reveal:not(.in) .eyebrow::before, .js .reveal:not(.in) .eyebrow::after { transform: none; }
+  .js .reveal .bundle__list li { opacity: 1; transform: none; }
 }
 
 /* =========================================================
@@ -744,6 +758,14 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 @media not all and (hover: hover) and (pointer: fine) {
   /* Blur di belakang navbar dihitung ulang setiap kali layar bergeser: ganti latar padat */
   .header__bar::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, .97); }
+  /* Efek yang mengikuti posisi scroll tidak dijalankan di HP: sembunyikan penandanya */
+  .progress, .totop__ring { display: none; }
+  .totop { border: 1px solid var(--line); }
+  /* Gerak muncul lebih pendek & cepat agar terasa ringan */
+  .js .reveal, .js .reveal--left, .js .reveal--right { transform: translate3d(0, 22px, 0); }
+  .js .reveal--zoom { transform: scale(.98) translate3d(0, 16px, 0); }
+  .js .reveal { transition-duration: .6s, .65s, .3s, .3s, .3s; }
+  .js .reveal .split .w > span { transition-duration: .6s; }
 }
 
 /* =========================================================
@@ -764,7 +786,9 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
    ========================================================= */
 .mock--peek { padding: 0; }
 .peek { position: absolute; left: 9%; top: 12%; width: 100%; height: 100%; background: #fff; border-radius: 10px 0 0 0;
-  border: 1px solid rgba(0, 0, 0, .07); box-shadow: 0 14px 30px -18px rgba(15, 40, 30, .4); overflow: hidden; }
+  border: 1px solid rgba(0, 0, 0, .07); box-shadow: 0 14px 30px -18px rgba(15, 40, 30, .4); overflow: hidden;
+  transition: transform .6s var(--ease); }
+.product__card:hover .peek, .pd__media:hover .peek { transform: translate(-8px, -6px); }
 .peek__bar { height: 22px; display: flex; align-items: center; gap: 4px; padding: 0 10px; background: #f3f5f3;
   border-bottom: 1px solid var(--line); font-size: .62rem; font-weight: 600; color: var(--ink); white-space: nowrap; }
 .peek__bar i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #d6dbd7; }
@@ -788,6 +812,7 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
 .bundle__list li::before { content: counter(f, decimal-leading-zero); flex-shrink: 0; color: #8fb0a3; font-size: .76rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
 
 @media (max-width: 560px) {
+  .sheet-win__shot { aspect-ratio: 629 / 644; }
   .sheet-win__shot img { width: 185%; }
   .buy-btn { height: 34px; padding: 0 12px; font-size: .82rem; }
   .bundle__list { padding: 16px; }
@@ -799,4 +824,73 @@ kbd { font-family: inherit; font-size: .7rem; font-weight: 600; padding: 2px 6px
   .shot--wide img { width: 760px; max-width: none; }
   .shot--wide .shot__hint { font-size: 0; }
   .shot--wide .shot__hint::after { content: "Geser gambar ke samping, atau ketuk untuk membuka ukuran penuh."; font-size: .9rem; }
+}
+
+/* =========================================================
+   GERAK: tenang dan punya tujuan. Tidak ada kilau, cahaya, atau denyut.
+   ========================================================= */
+
+/* Garis tipis penanda posisi baca (komputer saja) */
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 120; background: var(--green-700); transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+
+/* Gambar Excel di beranda bergeser pelan ke bawah seperti lembar yang digulir,
+   dari tabel sampai grafiknya, lalu kembali. Berhenti saat disorot kursor. */
+.sheet-win__shot img { animation: sheetPan 34s ease-in-out 3s infinite; }
+.sheet-win:hover .sheet-win__shot img { animation-play-state: paused; }
+@keyframes sheetPan {
+  0%, 12% { transform: translate3d(0, 0, 0); }
+  46%, 62% { transform: translate3d(0, -47.4%, 0); }
+  96%, 100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Judul bagian: kata demi kata naik dari balik garis */
+.split .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .12em; margin-bottom: -.12em; }
+.split .w > span { display: inline-block; }
+.js .reveal .split .w > span { transform: translateY(110%); transition: transform .8s var(--ease); transition-delay: calc(var(--wi, 0) * 40ms + 80ms); }
+.js .reveal.in .split .w > span { transform: none; }
+
+/* Label kecil dengan garis yang memanjang */
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transform-origin: right center; transition: transform .7s var(--ease) .2s; }
+.section__head--center .eyebrow::after { content: ""; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transform-origin: left center; transition: transform .7s var(--ease) .2s; }
+.js .reveal:not(.in) .eyebrow::before, .js .reveal:not(.in) .eyebrow::after { transform: scaleX(0); }
+
+/* Pita nama produk yang berjalan pelan (berhenti saat disorot) */
+.marquee { position: relative; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); padding: 15px 0; }
+/* Tepi memudar pakai lapisan gradasi putih (lebih ringan daripada mask di iPhone) */
+.marquee::before, .marquee::after { content: ""; position: absolute; top: 0; bottom: 0; z-index: 1; width: 7%; pointer-events: none; background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0)); }
+.marquee::before { left: 0; }
+.marquee::after { right: 0; transform: scaleX(-1); }
+.marquee__track { display: flex; width: max-content; animation: marquee 60s linear infinite; }
+.marquee:hover .marquee__track, .marquee:focus-within .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; align-items: center; flex-shrink: 0; }
+.marquee__item { display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: .95rem; color: var(--body); white-space: nowrap; transition: color .25s; }
+.marquee__item:hover { color: var(--green-700); }
+.marquee__item::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #c9d2cd; }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+
+/* Garis langkah "Cara Beli" yang terisi saat halaman digulir */
+.howto-rail { position: relative; height: 16px; margin: 0 12.5% 26px; }
+.howto-rail::before, .howto-rail__fill { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; }
+.howto-rail::before { background: var(--line); }
+.howto-rail__fill { background: var(--orange); transform-origin: left center; transform: scaleX(var(--p, 0)); }
+.howto-rail i { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #fff; border: 2px solid #d5dbd7; transition: background .35s, border-color .35s, transform .4s var(--ease); }
+.howto-rail i:nth-of-type(1) { left: 0; }
+.howto-rail i:nth-of-type(2) { left: 33.333%; }
+.howto-rail i:nth-of-type(3) { left: 66.667%; }
+.howto-rail i:nth-of-type(4) { left: 100%; }
+.howto-rail i.is-on { background: var(--orange); border-color: var(--orange); transform: scale(1.12); }
+.howto li.is-on .howto__ic { background: var(--orange); }
+.howto li.is-on::before { color: rgba(226, 112, 58, .5); }
+
+/* Isi paket bundle muncul berurutan */
+.js .reveal .bundle__list li { opacity: 0; transform: translate3d(0, 8px, 0); transition: opacity .45s ease, transform .5s var(--ease); transition-delay: calc(var(--n, 0) * 28ms + 300ms); }
+.js .reveal.in .bundle__list li { opacity: 1; transform: none; }
+
+@media (max-width: 560px) {
+  .marquee { padding: 12px 0; }
+  .marquee__item { font-size: .88rem; gap: 22px; padding-right: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet-win__shot img, .marquee__track { animation: none; }
 }

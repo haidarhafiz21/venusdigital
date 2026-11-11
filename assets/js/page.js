@@ -9,18 +9,34 @@
   function $(s) { return document.querySelector(s); }
   function $all(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
 
-  /* ---------- Navbar: bayangan, sembunyi/muncul, kembali ke atas ---------- */
-  var header = $("#header");
-  var toTop = $("#toTop");
-  var lastY = window.scrollY, ticking = false, drawerOpen = false;
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 
+  /* ---------- Navbar: bayangan, sembunyi/muncul, garis progres, kembali ke atas ---------- */
+  var header = $("#header");
+  var progress = $("#progress");
+  var toTop = $("#toTop"), toTopBar = $("#toTopBar"), RING = 131.95;
+  var lastY = window.scrollY, ticking = false, drawerOpen = false;
+  // Efek yang mengikuti posisi scroll hanya di komputer; di HP membuat scroll tersendat
+  var scrollFx = finePointer && !reduceMotion;
+
+  var lastProg = -1;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
       ticking = false;
-      var y = window.scrollY;
+      var y = window.scrollY, prog = 0;
+      if (scrollFx) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        prog = max > 0 ? Math.min(y / max, 1) : 0;
+      }
       header.classList.toggle("is-scrolled", y > 10);
+      if (scrollFx && Math.abs(prog - lastProg) > 0.0005) {
+        lastProg = prog;
+        if (progress) progress.style.transform = "scaleX(" + prog.toFixed(4) + ")";
+        if (toTopBar && y > 600) toTopBar.style.strokeDashoffset = (RING * (1 - prog)).toFixed(2);
+      }
       if (toTop) toTop.classList.toggle("is-visible", y > 600);
       if (Math.abs(y - lastY) > 8) {
         header.classList.toggle("is-hidden", y > lastY && y > 320 && !drawerOpen);
@@ -51,6 +67,17 @@
   window.addEventListener("scroll", updateBuybar, { passive: true });
   window.addEventListener("resize", updateBuybar);
   updateBuybar();
+
+  /* ---------- Judul bagian muncul per kata (sekali) ---------- */
+  if (!reduceMotion) $all(".section__head h2, .cta h2").forEach(function (el) {
+    if (el.children.length) return;
+    var text = el.textContent.trim().replace(/\s+/g, " ");
+    el.setAttribute("aria-label", text);
+    el.classList.add("split");
+    el.innerHTML = text.split(" ").map(function (w, i) {
+      return '<span class="w" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + "</span></span>";
+    }).join(" ");
+  });
 
   /* ---------- Drawer (menu mobile) ---------- */
   var burger = $("#burger"), drawer = $("#drawer"), backdrop = $("#drawerBackdrop");
